@@ -1,13 +1,17 @@
 package br.senai.sp.info.pweb.ianes.ws.services;
 
+import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
+import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
+import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import br.senai.sp.info.pweb.ianes.ws.dao.UsuarioDAO;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidacaoException;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -20,23 +24,23 @@ public class UsuarioService {
 	 * @param usuario
 	 * @param brUsuario
 	 * @return
-	 * @throws ValidacaoException
+	 * @throws ValidationException
 	 * <ul>
 	 * 	<li> Caso os campos tenham problemas de integridade</li>
 	 * 	<li> E-mail ja esta duplicado</li>
 	 * </ul>
 	 */
-	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidacaoException {
+	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException {
 		//Trata as validacoes
 		if(brUsuario.hasErrors()) {
-			throw new ValidacaoException();
+			throw new ValidationException();
 		}
 		
 		//Verificando campo de e-mail duplicado
 		Usuario usuarioBuscado = usuarioDAO.buscarPorEmail(usuario.getEmail());
 		if(usuarioBuscado != null) {
 			brUsuario.addError(new FieldError("usuario", "email", "O e-mail ja esta em uso"));
-			throw new ValidacaoException();
+			throw new ValidationException();
 		}
 		
 		//Hasheia a senha e persiste o objeto
@@ -46,31 +50,38 @@ public class UsuarioService {
 		return usuario;
 	}
 	
-	public Usuario buscarPorId(Long id, BindingResult brUsuario) throws ValidacaoException {
-	
-		if (brUsuario.hasErrors()) {
-			throw new ValidacaoException();
-		}
-		
+	public Usuario buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+
 		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
 		if (usuarioBuscado == null) {
-			brUsuario.addError(new FieldError("usuario", "id", "O usuario nao esta cadastrado no sistema"));
-			throw new ValidacaoException();
+			throw new EntityNotFoundException();
 		}
 		
 		return usuarioBuscado;
 	}
+
+	public List<Usuario> buscarTodos() throws UnauthorizedException {
+
+		return usuarioDAO.buscarTodos();
+
+	}
+
+	public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
+
+		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
+		if (usuarioBuscado == null) {
+			throw new EntityNotFoundException();
+		}
+
+		usuarioDAO.deletar(usuarioBuscado);
+	}
 	
-//	public Usuario autenticar(Usuario usuario, BindingResult brUsuario) throws ValidacaoException {
-//		
-//		if(brUsuario.hasErrors()) {
-//			throw new ValidacaoException();
-//		}
-//		
-//		Usuario usuarioAutenticado = usuarioDAO.buscarPorEmailESenha(usuario.getEmail(), usuario.getSenha());
-//		if (usuarioAutenticado == null) {
-//			brUsuario.addError(new FieldError("usuario", "email", "E-mail e/ou senha incorretos"));
-//		}
-//	}
+	public Usuario autenticar(Usuario usuario) throws ValidationException {
+
+	    usuario.hashearSenha();
+
+		return usuarioDAO.buscarPorEmailESenha(usuario.getEmail(), usuario.getSenha());
+
+	}
 
 }

@@ -1,6 +1,6 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidacaoException;
+import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.CategoriaPatrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.CategoriaPatrimonioService;
 import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
@@ -32,7 +32,7 @@ public class CategoriaPatrimonioController {
 						.status(HttpStatus.CREATED)
 						.body(categoriaCadastrada);
 			
-		} catch (ValidacaoException e) {
+		} catch (ValidationException e) {
 
 			return ResponseEntity
 						.unprocessableEntity()
