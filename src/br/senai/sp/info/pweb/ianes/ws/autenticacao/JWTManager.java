@@ -32,7 +32,7 @@ public class JWTManager {
 
 
     public static Autoridade validarToken(String token, Autoridade nivelNecessario) throws UnauthorizedException {
-        DecodedJWT jwt = null;
+        DecodedJWT jwt;
         try {
             jwt = JWT.require(Algorithm.HMAC256(TOKEN_SECRET))
                     .build()

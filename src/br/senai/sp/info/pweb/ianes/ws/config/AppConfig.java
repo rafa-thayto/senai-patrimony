@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 public class AppConfig {
 	
 	{
-		System.out.println("teste");
+		System.out.println("Application started");
 	}
 
 }
