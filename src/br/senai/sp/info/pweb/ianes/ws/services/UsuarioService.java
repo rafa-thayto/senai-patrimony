@@ -75,6 +75,10 @@ public class UsuarioService {
 
 		usuarioDAO.deletar(usuarioBuscado);
 	}
+
+	//	public Usuario alterar(Usuario usuario) throws EntityNotFoundException, UnauthorizedException {
+	// TODO: Fazer o alterar
+	//	}
 	
 	public Usuario autenticar(Usuario usuario) throws ValidationException {
 
