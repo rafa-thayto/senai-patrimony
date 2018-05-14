@@ -17,6 +17,14 @@ public class CategoriaPatrimonioService {
     @Autowired
     private CategoriaPatrimonioDAO categoriaDAO;
 
+    /**
+     * Persists a categoriaPatrimonio in dabatase
+     * @param categoria
+     * @param brCategoria
+     * @return
+     * @throws ValidationException
+     * @throws UnauthorizedException
+     */
     public CategoriaPatrimonio cadastrar(CategoriaPatrimonio categoria, BindingResult brCategoria) throws ValidationException, UnauthorizedException {
 
         // Trata validacoes
@@ -27,7 +35,7 @@ public class CategoriaPatrimonioService {
         // Verifica se a categoria já existe
         CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarPorNome(categoria.getNome());
         if (categoriaBuscada != null) {
-            throw new ValidationException();
+            throw new ValidationException("A categoria já existe");
         }
 
         categoriaDAO.persistir(categoria);
@@ -35,6 +43,13 @@ public class CategoriaPatrimonioService {
 
     }
 
+    /**
+     * Search by ID a categoriaPatrimonio in database
+     * @param id
+     * @return
+     * @throws EntityNotFoundException
+     * @throws UnauthorizedException
+     */
     public CategoriaPatrimonio buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
 
         CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarId(id);
@@ -45,10 +60,21 @@ public class CategoriaPatrimonioService {
         return categoriaBuscada;
     }
 
+    /**
+     * Search all categoriaPatrimonio in database
+     * @return
+     * @throws UnauthorizedException
+     */
     public List<CategoriaPatrimonio> buscarTodos() throws UnauthorizedException {
         return categoriaDAO.buscarTodos();
     }
 
+    /**
+     * Delete a categoriaPatrimonio in database
+     * @param id
+     * @throws EntityNotFoundException
+     * @throws UnauthorizedException
+     */
     public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
 
         CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarId(id);
@@ -57,11 +83,15 @@ public class CategoriaPatrimonioService {
         }
 
         categoriaDAO.deletar(categoriaBuscada);
-
     }
 
-    //    public void alterar(CategoriaPatrimonio categoria) throws UnauthorizedException {
-    // TODO: Fazer o alterar
-    //    }
+    /**
+     * Update categoriaPatrimonio in database
+     * @param categoria
+     * @throws UnauthorizedException
+     */
+    public void alterar(CategoriaPatrimonio categoria) throws UnauthorizedException {
+        categoriaDAO.alterar(categoria);
+    }
 
 }

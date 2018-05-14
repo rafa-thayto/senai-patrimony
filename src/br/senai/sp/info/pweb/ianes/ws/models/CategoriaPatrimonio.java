@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
 public class CategoriaPatrimonio {
@@ -14,6 +15,7 @@ public class CategoriaPatrimonio {
 	private Long id;
 	
 	@Column(length = 30, nullable = false, unique = true)
+	@Size(min = 1, max = 30)
 	private String nome;
 
 	public Long getId() {

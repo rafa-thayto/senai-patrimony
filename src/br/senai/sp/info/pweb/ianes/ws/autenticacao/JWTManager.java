@@ -45,4 +45,19 @@ public class JWTManager {
             throw new RuntimeException(e);
         }
     }
+
+    public static Boolean permissaoDeAcesso(String token, Autoridade nivelNecessario) throws UnauthorizedException {
+        DecodedJWT jwt;
+        try {
+            jwt = JWT.require(Algorithm.HMAC256(TOKEN_SECRET))
+                    .build()
+                    .verify(token);
+            Autoridade nivelUsuario = Autoridade.valueOf(jwt.getClaim("autoridade").asString().toUpperCase());
+            if(nivelUsuario.getLevel() < nivelNecessario.getLevel())
+                return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
 }

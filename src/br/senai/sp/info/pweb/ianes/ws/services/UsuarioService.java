@@ -20,7 +20,7 @@ public class UsuarioService {
 	private UsuarioDAO usuarioDAO;
 	
 	/**
-	 * Cadastra um {@link Usuario} no banco de dados
+	 * Persists a {@link Usuario} in the database
 	 * @param usuario
 	 * @param brUsuario
 	 * @return
@@ -30,7 +30,7 @@ public class UsuarioService {
 	 * 	<li> E-mail ja esta duplicado</li>
 	 * </ul>
 	 */
-	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException {
+	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException, UnauthorizedException {
 		//Trata as validacoes
 		if(brUsuario.hasErrors()) {
 			throw new ValidationException();
@@ -49,7 +49,14 @@ public class UsuarioService {
 		
 		return usuario;
 	}
-	
+
+    /**
+     * Search a user by ID in database
+     * @param id
+     * @return
+     * @throws EntityNotFoundException
+     * @throws UnauthorizedException
+     */
 	public Usuario buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
 
 		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
@@ -60,12 +67,23 @@ public class UsuarioService {
 		return usuarioBuscado;
 	}
 
+    /**
+     * Search all users in database
+     * @return
+     * @throws UnauthorizedException
+     */
 	public List<Usuario> buscarTodos() throws UnauthorizedException {
 
 		return usuarioDAO.buscarTodos();
 
 	}
 
+    /**
+     * Delete a user in database
+     * @param id
+     * @throws EntityNotFoundException
+     * @throws UnauthorizedException
+     */
 	public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
 
 		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
@@ -76,10 +94,24 @@ public class UsuarioService {
 		usuarioDAO.deletar(usuarioBuscado);
 	}
 
-	//	public Usuario alterar(Usuario usuario) throws EntityNotFoundException, UnauthorizedException {
-	// TODO: Fazer o alterar
-	//	}
-	
+    /**
+     * Update a user in database
+     * @param usuario
+     * @throws EntityNotFoundException
+     * @throws UnauthorizedException
+     */
+	public void alterar(Usuario usuario) throws EntityNotFoundException, UnauthorizedException {
+
+	    usuarioDAO.alterar(usuario);
+
+	}
+
+    /**
+     * Search a user by email and password
+     * @param usuario
+     * @return
+     * @throws ValidationException
+     */
 	public Usuario autenticar(Usuario usuario) throws ValidationException {
 
 	    usuario.hashearSenha();
