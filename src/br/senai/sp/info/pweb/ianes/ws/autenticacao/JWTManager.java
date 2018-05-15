@@ -1,6 +1,7 @@
 package br.senai.sp.info.pweb.ianes.ws.autenticacao;
 
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
+import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator.Builder;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,12 +14,15 @@ public class JWTManager {
 
     private static final String TOKEN_SECRET = "2gt5uji8lgrlih5rt8rkjur,ktugj", TOKEN_ISSUER = "Ianes Patrimonio", TOKEN_SUBJECT = "Ianes Patrimonio";
 
-    public static String gerarToken(Autoridade autoridade) {
+    public static String gerarToken(Autoridade autoridade, Usuario usuario) {
         try {
             Builder tokenbuilder = JWT
                     .create()
                     .withIssuer(TOKEN_ISSUER)
                     .withSubject(TOKEN_SUBJECT)
+                    .withClaim("nome", usuario.getNome())
+                    .withClaim("email", usuario.getEmail())
+                    .withClaim("id", usuario.getId())
                     .withClaim("autoridade", autoridade.toString())
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(new Date().getTime() + (60 * 60 * 1000)));
@@ -28,6 +32,15 @@ public class JWTManager {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static DecodedJWT decodificarToken(String token) {
+        try {
+            return JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).build().verify(token);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

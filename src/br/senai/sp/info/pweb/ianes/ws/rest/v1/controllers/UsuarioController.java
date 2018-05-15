@@ -9,6 +9,9 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import br.senai.sp.info.pweb.ianes.ws.services.UsuarioService;
 import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -180,12 +183,12 @@ public class UsuarioController {
         }
 	}
 
-	/**
-	 * Update the user
-	 * @param id
-	 * @param token
-	 * @return
-	 */
+//	/**
+//	 * Update the user
+//	 * @param id
+//	 * @param token
+//	 * @return
+//	 */
 //	@PutMapping("/{id}")
 //	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Usuario usuario, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 //
@@ -230,6 +233,14 @@ public class UsuarioController {
 //		}
 //
 //	}
+	@PatchMapping("/changepassword")
+	public ResponseEntity<Object> trocarSenha(@RequestBody String senhas, @RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnauthorizedException {
+        JWTManager.permissaoDeAcesso(token, Autoridade.ADMINISTRADOR);
+        DecodedJWT decoded = JWTManager.decodificarToken(token);
+		System.out.println(senhas);
+        Long id = decoded.getClaim("id").asLong();
+		return ResponseEntity.status(201).body(id);
+	}
 
 	/**
 	 * Auth the user
@@ -243,7 +254,7 @@ public class UsuarioController {
 
 			Usuario autenticado = usuarioService.autenticar(usuario);
 
-			String token = JWTManager.gerarToken(Autoridade.parseTipoUsuario(autenticado.getTipo()));
+			String token = JWTManager.gerarToken(Autoridade.parseTipoUsuario(autenticado.getTipo()), autenticado);
 
 			return ResponseEntity
 					.status(HttpStatus.OK)
