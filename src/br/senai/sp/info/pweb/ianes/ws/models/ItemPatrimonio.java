@@ -15,7 +15,16 @@ public class ItemPatrimonio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true)
 	private Long id;
-	
+
+	@ManyToOne
+	private Patrimonio patrimonio;
+
+	@ManyToOne
+	private Ambiente ambiente;
+
+	@OneToOne
+	private Usuario usuario;
+
 	public Long getId() {
 		return id;
 	}
@@ -48,12 +57,4 @@ public class ItemPatrimonio {
 		this.usuario = usuario;
 	}
 
-	@ManyToOne
-	private Patrimonio patrimonio;
-	
-	@ManyToOne
-	private Ambiente ambiente;
-	
-	@OneToOne
-	private Usuario usuario;
 }

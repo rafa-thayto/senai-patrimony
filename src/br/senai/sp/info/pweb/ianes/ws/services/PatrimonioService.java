@@ -18,7 +18,7 @@ public class PatrimonioService {
     private PatrimonioDAO patrimonioDAO;
 
     /**
-     * Persists a categoriaPatrimonio in dabatase
+     * Persists a patrimonio in dabatase
      * @param patrimonio
      * @param brPatrimonio
      * @return
@@ -44,7 +44,7 @@ public class PatrimonioService {
     }
 
     /**
-     * Search by ID a categoriaPatrimonio in database
+     * Search by ID a patrimonio in database
      * @param id
      * @return
      * @throws EntityNotFoundException
@@ -61,7 +61,7 @@ public class PatrimonioService {
     }
 
     /**
-     * Search all categoriaPatrimonio in database
+     * Search all patrimonio in database
      * @return
      * @throws UnauthorizedException
      */
@@ -70,7 +70,7 @@ public class PatrimonioService {
     }
 
     /**
-     * Delete a categoriaPatrimonio in database
+     * Delete a patrimonio in database
      * @param id
      * @throws EntityNotFoundException
      * @throws UnauthorizedException
@@ -86,7 +86,7 @@ public class PatrimonioService {
     }
 
     /**
-     * Update categoriaPatrimonio in database
+     * Update patrimonio in database
      * @param patrimonio
      * @throws UnauthorizedException
      */

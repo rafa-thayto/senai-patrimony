@@ -19,18 +19,21 @@ public class ItemPatrimonioJPA implements ItemPatrimonioDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void persistir(ItemPatrimonio obj) {
+	public ItemPatrimonio persistir(ItemPatrimonio obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(ItemPatrimonio obj) {
+	public ItemPatrimonio deletar(ItemPatrimonio obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(ItemPatrimonio obj) {
+	public ItemPatrimonio alterar(ItemPatrimonio obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

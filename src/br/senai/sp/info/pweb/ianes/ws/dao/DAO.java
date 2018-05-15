@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface DAO<T> {
 	
-	public void persistir(T obj);
-	public void deletar(T obj);
-	public void alterar(T obj);
+	public T persistir(T obj);
+	public T deletar(T obj);
+	public T alterar(T obj);
 	public T buscarId(Long id);
 	public List<T> buscarTodos();
 	

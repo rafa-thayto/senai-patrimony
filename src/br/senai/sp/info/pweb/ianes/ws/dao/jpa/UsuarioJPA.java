@@ -19,18 +19,21 @@ public class UsuarioJPA implements UsuarioDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void persistir(Usuario obj) {
+	public Usuario persistir(Usuario obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(Usuario obj) {
+	public Usuario deletar(Usuario obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(Usuario obj) {
+	public Usuario alterar(Usuario obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

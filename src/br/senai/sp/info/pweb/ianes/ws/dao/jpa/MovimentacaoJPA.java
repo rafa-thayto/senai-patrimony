@@ -19,18 +19,21 @@ public class MovimentacaoJPA implements MovimentacaoDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void persistir(Movimentacao obj) {
+	public Movimentacao persistir(Movimentacao obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(Movimentacao obj) {
+	public Movimentacao deletar(Movimentacao obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(Movimentacao obj) {
+	public Movimentacao alterar(Movimentacao obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

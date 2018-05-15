@@ -19,18 +19,21 @@ public class CategoriaPatrimonioJPA implements CategoriaPatrimonioDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void persistir(CategoriaPatrimonio obj) {
+	public CategoriaPatrimonio persistir(CategoriaPatrimonio obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(CategoriaPatrimonio obj) {
+	public CategoriaPatrimonio deletar(CategoriaPatrimonio obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(CategoriaPatrimonio obj) {
+	public CategoriaPatrimonio alterar(CategoriaPatrimonio obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

@@ -19,18 +19,21 @@ public class AmbienteJPA implements AmbienteDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void persistir(Ambiente obj) {
+	public Ambiente persistir(Ambiente obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(Ambiente obj) {
+	public Ambiente deletar(Ambiente obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(Ambiente obj) {
+	public Ambiente alterar(Ambiente obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

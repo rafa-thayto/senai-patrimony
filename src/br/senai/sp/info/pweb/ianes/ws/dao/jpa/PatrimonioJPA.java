@@ -19,18 +19,21 @@ public class PatrimonioJPA implements PatrimonioDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void persistir(Patrimonio obj) {
+	public Patrimonio persistir(Patrimonio obj) {
 		sessionFactory.getCurrentSession().persist(obj);
+		return obj;
 	}
 
 	@Override
-	public void deletar(Patrimonio obj) {
+	public Patrimonio deletar(Patrimonio obj) {
 		sessionFactory.getCurrentSession().delete(obj);
+		return obj;
 	}
 
 	@Override
-	public void alterar(Patrimonio obj) {
+	public Patrimonio alterar(Patrimonio obj) {
 		sessionFactory.getCurrentSession().update(obj);
+		return obj;
 	}
 
 	@Override

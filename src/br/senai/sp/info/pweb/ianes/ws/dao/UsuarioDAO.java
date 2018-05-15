@@ -4,7 +4,7 @@ import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 
 public interface UsuarioDAO extends DAO<Usuario> {
 
-	public Usuario buscarPorEmail(String email);
-	public Usuario buscarPorEmailESenha(String email, String senha);
+	Usuario buscarPorEmail(String email);
+	Usuario buscarPorEmailESenha(String email, String senha);
 
 }
