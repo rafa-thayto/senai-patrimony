@@ -27,16 +27,15 @@ public class AmbienteController {
     /**
      * Search user by id
      * @param id
-     * @param brAmbiente
      * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, BindingResult brAmbiente, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+            JWTManager.validarToken(token, Autoridade.COMUM);
 
             Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
 
@@ -47,8 +46,8 @@ public class AmbienteController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .unprocessableEntity()
-                    .body(MapHelper.mapaDe(brAmbiente));
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
 
         } catch (UnauthorizedException e) {
 
@@ -76,7 +75,7 @@ public class AmbienteController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+            JWTManager.validarToken(token, Autoridade.COMUM);
 
             List<Ambiente> ambientes = ambienteService.buscarTodos();
 
@@ -173,6 +172,38 @@ public class AmbienteController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
 
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Ambiente ambiente, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+
+        try {
+
+            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+
+            Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
+
+            ambienteBuscado.setNome(ambiente.getNome());
+
+            ambienteService.alterar(ambienteBuscado);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(ambienteBuscado);
+
+        } catch (UnauthorizedException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
         }
     }
 

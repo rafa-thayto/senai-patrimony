@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class JWTManager {
 
-    private static final String TOKEN_SECRET = "2gt5uji8lgrlih5rt8rkjur,ktugj", TOKEN_ISSUER = "Ianes Patrimonio", TOKEN_SUBJECT = "Ianes Patrimonio";
+    private static final String TOKEN_SECRET = "6f95fbfa8319159b00f7298d0a28c037ecd1283b", TOKEN_ISSUER = "Ianes Patrimonio", TOKEN_SUBJECT = "Ianes Patrimonio";
 
     public static String gerarToken(Autoridade autoridade, Usuario usuario) {
         try {

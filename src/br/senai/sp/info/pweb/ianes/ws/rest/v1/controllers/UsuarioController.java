@@ -195,7 +195,7 @@ public class UsuarioController {
 //		try {
 //
 //
-//			if (JWTManager.permissaoDeAcesso(token, Autoridade.ADMINISTRADOR)) {
+//            JWTManager.permissaoDeAcesso(token, Autoridade.COMUM)
 //
 //                Usuario usuarioBuscado = usuarioService.buscarPorId(id);
 //                usuarioBuscado.setNome(usuario.getNome());
@@ -203,17 +203,6 @@ public class UsuarioController {
 //                usuarioBuscado.setEmail(usuario.getEmail());
 //                usuarioBuscado.setTipo(usuario.getTipo());
 //                usuarioBuscado.setSenha(usuario.getSenha());
-//
-//                usuarioService.alterar(usuarioBuscado);
-//            }
-//            if (JWTManager.permissaoDeAcesso(token, Autoridade.COMUM)) {
-//                Usuario usuarioBuscado = usuarioService.buscarPorId(id);
-//                usuarioBuscado.setNome(usuario.getNome());
-//                usuarioBuscado.setSobrenome(usuario.getSobrenome());
-//                usuarioBuscado.setSenha(usuario.getSenha());
-//                usuario.hashearSenha();
-//            }
-//
 //
 //            return ResponseEntity
 //                    .status(HttpStatus.OK)
@@ -233,9 +222,9 @@ public class UsuarioController {
 //		}
 //
 //	}
-	@PatchMapping("/changepassword")
-	public ResponseEntity<Object> trocarSenha(@RequestBody String senhas, @RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnauthorizedException {
-        JWTManager.permissaoDeAcesso(token, Autoridade.ADMINISTRADOR);
+	@PatchMapping("/alterarsenha")
+	public ResponseEntity<Object> alterarSenha(@RequestBody String senhas, @RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnauthorizedException {
+        JWTManager.permissaoDeAcesso(token, Autoridade.COMUM);
         DecodedJWT decoded = JWTManager.decodificarToken(token);
 		System.out.println(senhas);
         Long id = decoded.getClaim("id").asLong();

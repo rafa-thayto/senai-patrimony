@@ -38,7 +38,7 @@ public class PatrimonioController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+            JWTManager.validarToken(token, Autoridade.COMUM);
 
             Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
 
@@ -78,7 +78,7 @@ public class PatrimonioController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+            JWTManager.validarToken(token, Autoridade.COMUM);
 
             List<Patrimonio> patrimonios = patrimonioService.buscarTodos();
 

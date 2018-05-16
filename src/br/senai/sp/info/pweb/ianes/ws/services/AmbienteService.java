@@ -52,12 +52,12 @@ public class AmbienteService {
      */
     public Ambiente buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
 
-        Ambiente ambienteBuscada = ambienteDAO.buscarId(id);
-        if (ambienteBuscada == null) {
+        Ambiente ambienteBuscado = ambienteDAO.buscarId(id);
+        if (ambienteBuscado == null) {
             throw new EntityNotFoundException();
         }
 
-        return ambienteBuscada;
+        return ambienteBuscado;
     }
 
     /**
