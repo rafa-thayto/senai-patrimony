@@ -1,6 +1,7 @@
 package br.senai.sp.info.pweb.ianes.ws.services;
 
 import br.senai.sp.info.pweb.ianes.ws.dao.PatrimonioDAO;
+import br.senai.sp.info.pweb.ianes.ws.dao.UsuarioDAO;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +18,9 @@ public class PatrimonioService {
 
     @Autowired
     private PatrimonioDAO patrimonioDAO;
+
+    @Autowired
+    private UsuarioDAO usuarioDAO;
 
     /**
      * Persists a patrimonio in dabatase
@@ -25,7 +30,7 @@ public class PatrimonioService {
      * @throws ValidationException
      * @throws UnauthorizedException
      */
-    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio) throws ValidationException, UnauthorizedException {
+    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio, Long usuarioId) throws ValidationException, UnauthorizedException {
 
         // Trata validacoes
         if (brPatrimonio.hasErrors()) {
@@ -38,8 +43,12 @@ public class PatrimonioService {
             throw new ValidationException("A categoria já existe");
         }
 
+        patrimonio.setUsuario(usuarioDAO.buscarId(usuarioId));
+        // Setting register date
+        patrimonio.setData_cadastro(new Date(new Date().getTime()));
+        System.out.println("Patrimonio: " + patrimonio);
         patrimonioDAO.persistir(patrimonio);
-        return patrimonio;
+        return patrimonioDAO.buscarId(patrimonio.getId());
 
     }
 

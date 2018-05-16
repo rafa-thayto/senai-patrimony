@@ -8,6 +8,7 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.PatrimonioService;
 import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,7 +115,9 @@ public class PatrimonioController {
 
             JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
-            Patrimonio patrimonioCadastrado = patrimonioService.cadastrar(patrimonio, brPatrimonio);
+            DecodedJWT decoded = JWTManager.decodificarToken(token);
+            Long usuarioId = decoded.getClaim("id").asLong();
+            Patrimonio patrimonioCadastrado = patrimonioService.cadastrar(patrimonio, brPatrimonio, usuarioId);
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
