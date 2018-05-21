@@ -46,7 +46,6 @@ public class PatrimonioService {
         patrimonio.setUsuario(usuarioDAO.buscarId(usuarioId));
         // Setting register date
         patrimonio.setData_cadastro(new Date(new Date().getTime()));
-        System.out.println("Patrimonio: " + patrimonio);
         patrimonioDAO.persistir(patrimonio);
         return patrimonioDAO.buscarId(patrimonio.getId());
 
@@ -99,7 +98,8 @@ public class PatrimonioService {
      * @param patrimonio
      * @throws UnauthorizedException
      */
-    public void alterar(Patrimonio patrimonio) throws UnauthorizedException {
+    public void alterar(Patrimonio patrimonio, Long id) throws UnauthorizedException {
+        patrimonio.setUsuario(usuarioDAO.buscarId(id));
         patrimonioDAO.alterar(patrimonio);
     }
 

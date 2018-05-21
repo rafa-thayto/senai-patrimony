@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/v1/movimentacoes")
 public class MovimentacaoController {
 
@@ -27,12 +28,11 @@ public class MovimentacaoController {
     /**
      * Search user by id
      * @param id
-     * @param brMovimentacao
      * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, BindingResult brMovimentacao, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
 
@@ -47,8 +47,8 @@ public class MovimentacaoController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .unprocessableEntity()
-                    .body(MapHelper.mapaDe(brMovimentacao));
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
 
         } catch (UnauthorizedException e) {
 
@@ -164,7 +164,7 @@ public class MovimentacaoController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.NOT_FOUND)
                     .build();
 
         } catch (Exception e) {

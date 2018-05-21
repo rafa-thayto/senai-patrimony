@@ -34,12 +34,11 @@ public class UsuarioController {
 	/**
 	 * Search user by id
 	 * @param id
-	 * @param brUsuario
 	 * @param token
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> buscarPorId(@PathVariable Long id, BindingResult brUsuario, @RequestHeader(name = "x-auth-token") String token) {
+	public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
 		try {
 
@@ -53,9 +52,9 @@ public class UsuarioController {
 
         } catch (EntityNotFoundException e) {
 
-		    return ResponseEntity
-                    .unprocessableEntity()
-                    .body(MapHelper.mapaDe(brUsuario));
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.build();
 
         } catch (UnauthorizedException e) {
 
@@ -170,9 +169,9 @@ public class UsuarioController {
 
         } catch (EntityNotFoundException e) {
 
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.build();
 
         } catch (Exception e) {
 
@@ -211,7 +210,7 @@ public class UsuarioController {
 //		} catch (UnauthorizedException e) {
 //
 //			return ResponseEntity
-//					.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+//					.status(HttpStatus.NON_AUTHORITATIVE_I NFORMATION)
 //					.build();
 //
 //		} catch (Exception e) {

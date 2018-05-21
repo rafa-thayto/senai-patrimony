@@ -29,12 +29,11 @@ public class PatrimonioController {
     /**
      * Search user by id
      * @param id
-     * @param brPatrimonio
      * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, BindingResult brPatrimonio, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
 
@@ -49,8 +48,8 @@ public class PatrimonioController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .unprocessableEntity()
-                    .body(MapHelper.mapaDe(brPatrimonio));
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
 
         } catch (UnauthorizedException e) {
 
@@ -168,7 +167,7 @@ public class PatrimonioController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.NOT_FOUND)
                     .build();
 
         } catch (Exception e) {
@@ -177,6 +176,39 @@ public class PatrimonioController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
 
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Patrimonio patrimonio ,@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+        try {
+
+            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
+
+            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
+
+            DecodedJWT decoded = JWTManager.decodificarToken(token);
+            Long usuarioId = decoded.getClaim("id").asLong();
+            Patrimonio usuarioLogado = patrimonioService.buscarPorId(usuarioId);
+
+            patrimonioService.alterar(patrimonioBuscado, usuarioId);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(patrimonioBuscado);
+
+        } catch (UnauthorizedException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
         }
     }
 }

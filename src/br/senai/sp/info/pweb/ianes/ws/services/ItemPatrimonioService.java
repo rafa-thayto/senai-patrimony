@@ -1,6 +1,7 @@
 package br.senai.sp.info.pweb.ianes.ws.services;
 
 import br.senai.sp.info.pweb.ianes.ws.dao.ItemPatrimonioDAO;
+import br.senai.sp.info.pweb.ianes.ws.dao.UsuarioDAO;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
@@ -17,6 +18,9 @@ public class ItemPatrimonioService {
     @Autowired
     private ItemPatrimonioDAO itemPatrimonioDAO;
 
+    @Autowired
+    private UsuarioDAO usuarioDAO;
+
     /**
      * Persists a item in dabatase
      * @param item
@@ -25,7 +29,7 @@ public class ItemPatrimonioService {
      * @throws ValidationException
      * @throws UnauthorizedException
      */
-    public ItemPatrimonio cadastrar(ItemPatrimonio item, BindingResult brItem) throws ValidationException, UnauthorizedException {
+    public ItemPatrimonio cadastrar(ItemPatrimonio item, BindingResult brItem, Long usuarioId) throws ValidationException, UnauthorizedException {
 
         // Trata validacoes
         if (brItem.hasErrors()) {
@@ -35,8 +39,10 @@ public class ItemPatrimonioService {
         // Verifica se a categoria já existe
         ItemPatrimonio patrimonioBuscado = itemPatrimonioDAO.buscarId(item.getId());
         if (patrimonioBuscado != null) {
-            throw new ValidationException("A categoria já existe");
+            throw new ValidationException("O item já existe");
         }
+
+        item.setUsuario(usuarioDAO.buscarId(usuarioId));
 
         itemPatrimonioDAO.persistir(item);
         return item;
