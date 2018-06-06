@@ -120,4 +120,21 @@ public class UsuarioService {
 
 	}
 
+	public Usuario buscarEmailSenha(Usuario usuario, BindingResult bindingResult) throws ValidationException, EntityNotFoundException {
+
+		if (bindingResult.hasFieldErrors("email") || bindingResult.hasFieldErrors("senha")) {
+			throw new ValidationException();
+		}
+
+		usuario.hashearSenha();
+		Usuario usuarioBuscado =
+				usuarioDAO.buscarPorEmailESenha(usuario.getEmail(), usuario.getSenha());
+
+		if (usuarioBuscado == null) {
+			throw new EntityNotFoundException();
+		}
+
+		return usuarioBuscado;
+	}
+
 }

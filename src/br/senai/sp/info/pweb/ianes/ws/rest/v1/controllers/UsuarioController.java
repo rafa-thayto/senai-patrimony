@@ -1,18 +1,11 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.Autoridade;
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.JWTManager;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.BadRequestException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import br.senai.sp.info.pweb.ianes.ws.services.UsuarioService;
-import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
+import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -41,8 +33,6 @@ public class UsuarioController {
 	public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
 		try {
-
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
 		    Usuario usuarioBuscado = usuarioService.buscarPorId(id);
 
@@ -82,8 +72,6 @@ public class UsuarioController {
 
 		try {
 
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
             List<Usuario> usuarios = usuarioService.buscarTodos();
 
             return ResponseEntity
@@ -117,8 +105,6 @@ public class UsuarioController {
 		
 		try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
             Usuario usuarioCadastrado = usuarioService.cadastrar(usuario, brUsuario);
 
             return ResponseEntity
@@ -135,7 +121,7 @@ public class UsuarioController {
 			
 			return ResponseEntity
 						.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-						.body(MapHelper.mapaDe(brUsuario));
+						.body(MapUtils.mapaDe(brUsuario));
 			
 		} catch (Exception e) {
 			
@@ -156,8 +142,6 @@ public class UsuarioController {
 	public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
 		try {
-
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
 	        Usuario usuarioBuscado = usuarioService.buscarPorId(id);
 
@@ -223,11 +207,7 @@ public class UsuarioController {
 //	}
 	@PatchMapping("/alterarsenha")
 	public ResponseEntity<Object> alterarSenha(@RequestBody String senhas, @RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnauthorizedException {
-        JWTManager.permissaoDeAcesso(token, Autoridade.COMUM);
-        DecodedJWT decoded = JWTManager.decodificarToken(token);
-		System.out.println(senhas);
-        Long id = decoded.getClaim("id").asLong();
-		return ResponseEntity.status(201).body(id);
+		return ResponseEntity.status(201).build();
 	}
 
 	/**
@@ -242,11 +222,8 @@ public class UsuarioController {
 
 			Usuario autenticado = usuarioService.autenticar(usuario);
 
-			String token = JWTManager.gerarToken(Autoridade.parseTipoUsuario(autenticado.getTipo()), autenticado);
-
 			return ResponseEntity
 					.status(HttpStatus.OK)
-					.header("X-AUTH-TOKEN", token)
 					.build();
 
 		} catch (ValidationException e) {

@@ -1,13 +1,11 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.Autoridade;
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.JWTManager;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
 import br.senai.sp.info.pweb.ianes.ws.services.AmbienteService;
-import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
+import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +32,6 @@ public class AmbienteController {
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.COMUM);
 
             Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
 
@@ -75,8 +71,6 @@ public class AmbienteController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.COMUM);
-
             List<Ambiente> ambientes = ambienteService.buscarTodos();
 
             return ResponseEntity
@@ -110,8 +104,6 @@ public class AmbienteController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
             Ambiente ambienteBuscado = ambienteService.cadastrar(Ambiente, brAmbiente);
 
             return ResponseEntity
@@ -128,7 +120,7 @@ public class AmbienteController {
 
             return ResponseEntity
                     .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-                    .body(MapHelper.mapaDe(brAmbiente));
+                    .body(MapUtils.mapaDe(brAmbiente));
 
         } catch (Exception e) {
 
@@ -149,8 +141,6 @@ public class AmbienteController {
     public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
 
@@ -179,8 +169,6 @@ public class AmbienteController {
     public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Ambiente ambiente, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
 

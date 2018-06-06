@@ -1,22 +1,15 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.Autoridade;
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.JWTManager;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.PatrimonioService;
-import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -36,8 +29,6 @@ public class PatrimonioController {
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.COMUM);
 
             Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
 
@@ -77,8 +68,6 @@ public class PatrimonioController {
 
         try {
 
-            JWTManager.validarToken(token, Autoridade.COMUM);
-
             List<Patrimonio> patrimonios = patrimonioService.buscarTodos();
 
             return ResponseEntity
@@ -107,41 +96,35 @@ public class PatrimonioController {
      * @param token
      * @return
      */
-    @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Patrimonio patrimonio, BindingResult brPatrimonio, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
-
-        try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
-            DecodedJWT decoded = JWTManager.decodificarToken(token);
-            Long usuarioId = decoded.getClaim("id").asLong();
-            Patrimonio patrimonioCadastrado = patrimonioService.cadastrar(patrimonio, brPatrimonio, usuarioId);
-
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(patrimonioCadastrado);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-
-        } catch (ValidationException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-                    .body(MapHelper.mapaDe(brPatrimonio));
-
-        } catch (Exception e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Patrimonio patrimonio, BindingResult brPatrimonio, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+//
+//        try {
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.CREATED)
+//                    .build();
+//
+//        } catch (UnauthorizedException e) {
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.UNAUTHORIZED)
+//                    .build();
+//
+//        } catch (ValidationException e) {
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+//                    .body(MapUtils.mapaDe(brPatrimonio));
+//
+//        } catch (Exception e) {
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
+//
+//    }
 
     /**
      * Delete the user
@@ -153,8 +136,6 @@ public class PatrimonioController {
     public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
 
@@ -183,15 +164,7 @@ public class PatrimonioController {
     public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Patrimonio patrimonio ,@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
             Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
-
-            DecodedJWT decoded = JWTManager.decodificarToken(token);
-            Long usuarioId = decoded.getClaim("id").asLong();
-            Patrimonio usuarioLogado = patrimonioService.buscarPorId(usuarioId);
-
-            patrimonioService.alterar(patrimonioBuscado, usuarioId);
 
             return ResponseEntity
                     .status(HttpStatus.OK)

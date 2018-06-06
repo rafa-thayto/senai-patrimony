@@ -1,13 +1,11 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.Autoridade;
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.JWTManager;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.CategoriaPatrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.CategoriaPatrimonioService;
-import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
+import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +32,6 @@ public class CategoriaPatrimonioController {
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
 
@@ -75,8 +71,6 @@ public class CategoriaPatrimonioController {
 
 		try {
 
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
 			List<CategoriaPatrimonio> categorias = categoriaService.buscarTodos();
 
 			return ResponseEntity
@@ -110,8 +104,6 @@ public class CategoriaPatrimonioController {
 		
 		try {
 
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
-
 			CategoriaPatrimonio categoriaCadastrada = categoriaService.cadastrar(categoria, brCategoria);
 			
 			return ResponseEntity
@@ -122,7 +114,7 @@ public class CategoriaPatrimonioController {
 
 			return ResponseEntity
 						.unprocessableEntity()
-						.body(MapHelper.mapaDe(brCategoria));
+						.body(MapUtils.mapaDe(brCategoria));
 			
 		} catch (Exception e) {
 			
@@ -143,8 +135,6 @@ public class CategoriaPatrimonioController {
 	public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
 		try {
-
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
 			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
 
@@ -173,8 +163,6 @@ public class CategoriaPatrimonioController {
 	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody CategoriaPatrimonio categoria, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
 
 		try {
-
-			JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
 			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
 

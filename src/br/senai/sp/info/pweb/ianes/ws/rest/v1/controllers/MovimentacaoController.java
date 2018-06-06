@@ -1,13 +1,11 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.Autoridade;
-import br.senai.sp.info.pweb.ianes.ws.autenticacao.JWTManager;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Movimentacao;
 import br.senai.sp.info.pweb.ianes.ws.services.MovimentacaoService;
-import br.senai.sp.info.pweb.ianes.ws.utils.MapHelper;
+import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/v1/movimentacoes")
+@RequestMapping("/v1/patrimonios/itens/{itemId}/movimentacoes")
 public class MovimentacaoController {
 
     @Autowired
@@ -32,11 +30,9 @@ public class MovimentacaoController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token, @PathVariable("itemId") String itemId) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Movimentacao movimentacaoBuscada = movientacaoService.buscarPorId(id);
 
@@ -72,11 +68,9 @@ public class MovimentacaoController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             List<Movimentacao> movimentacoes = movientacaoService.buscarTodos();
 
@@ -107,11 +101,9 @@ public class MovimentacaoController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Movimentacao movimentcao, BindingResult brMovimentacao, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Movimentacao movimentcao, BindingResult brMovimentacao, @RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Movimentacao movimentcaoCadastrada = movientacaoService.cadastrar(movimentcao, brMovimentacao);
 
@@ -129,7 +121,7 @@ public class MovimentacaoController {
 
             return ResponseEntity
                     .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-                    .body(MapHelper.mapaDe(brMovimentacao));
+                    .body(MapUtils.mapaDe(brMovimentacao));
 
         } catch (Exception e) {
 
@@ -147,11 +139,9 @@ public class MovimentacaoController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
 
         try {
-
-            JWTManager.validarToken(token, Autoridade.ADMINISTRADOR);
 
             Movimentacao movimentacaoBuscada = movientacaoService.buscarPorId(id);
 
