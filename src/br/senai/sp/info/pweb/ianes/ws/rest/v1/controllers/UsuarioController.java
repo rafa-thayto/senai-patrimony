@@ -26,30 +26,20 @@ public class UsuarioController {
 	/**
 	 * Search user by id
 	 * @param id
-	 * @param token
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
+	public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
 
 		try {
 
-		    Usuario usuarioBuscado = usuarioService.buscarPorId(id);
-
 		    return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(usuarioBuscado);
+                    .ok(usuarioService.buscarPorId(id));
 
         } catch (EntityNotFoundException e) {
 
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
-					.build();
-
-        } catch (UnauthorizedException e) {
-
-			return ResponseEntity
-					.status(HttpStatus.UNAUTHORIZED)
 					.build();
 
 		} catch (Exception e) {
@@ -64,25 +54,15 @@ public class UsuarioController {
 
 	/**
 	 * Search all users
-	 * @param token
 	 * @return
 	 */
 	@GetMapping
-    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> buscarTodos() {
 
 		try {
 
-            List<Usuario> usuarios = usuarioService.buscarTodos();
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(usuarios);
-
-        } catch (UnauthorizedException e) {
-
-	    	return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(usuarioService.buscarTodos());
 
         } catch (Exception e) {
 
@@ -97,19 +77,15 @@ public class UsuarioController {
 	 * Persists the user
 	 * @param usuario
 	 * @param brUsuario
-	 * @param token
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario, BindingResult brUsuario, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+	public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario, BindingResult brUsuario) {
 		
 		try {
 
-            Usuario usuarioCadastrado = usuarioService.cadastrar(usuario, brUsuario);
-
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(usuarioCadastrado);
+                    .ok(usuarioService.cadastrar(usuario, brUsuario));
 
         } catch (UnauthorizedException e) {
 
@@ -120,7 +96,7 @@ public class UsuarioController {
 		} catch (ValidationException e) {
 			
 			return ResponseEntity
-						.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+						.unprocessableEntity()
 						.body(MapUtils.mapaDe(brUsuario));
 			
 		} catch (Exception e) {
@@ -135,11 +111,10 @@ public class UsuarioController {
 	/**
 	 * Delete the user
 	 * @param id
-	 * @param token
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+	public ResponseEntity<Object> deletar(@PathVariable Long id) {
 
 		try {
 
@@ -169,23 +144,12 @@ public class UsuarioController {
 //	/**
 //	 * Update the user
 //	 * @param id
-//	 * @param token
 //	 * @return
 //	 */
 //	@PutMapping("/{id}")
-//	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Usuario usuario, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+//	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Usuario usuario) {
 //
 //		try {
-//
-//
-//            JWTManager.permissaoDeAcesso(token, Autoridade.COMUM)
-//
-//                Usuario usuarioBuscado = usuarioService.buscarPorId(id);
-//                usuarioBuscado.setNome(usuario.getNome());
-//                usuarioBuscado.setSobrenome(usuario.getSobrenome());
-//                usuarioBuscado.setEmail(usuario.getEmail());
-//                usuarioBuscado.setTipo(usuario.getTipo());
-//                usuarioBuscado.setSenha(usuario.getSenha());
 //
 //            return ResponseEntity
 //                    .status(HttpStatus.OK)
@@ -205,40 +169,10 @@ public class UsuarioController {
 //		}
 //
 //	}
-	@PatchMapping("/alterarsenha")
-	public ResponseEntity<Object> alterarSenha(@RequestBody String senhas, @RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnauthorizedException {
-		return ResponseEntity.status(201).build();
-	}
 
-	/**
-	 * Auth the user
-	 * @param usuario
-	 * @return
-	 */
-	@PostMapping("/auth")
-	public ResponseEntity<Object> autenticar(@RequestBody Usuario usuario) {
-
-		try {
-
-			Usuario autenticado = usuarioService.autenticar(usuario);
-
-			return ResponseEntity
-					.status(HttpStatus.OK)
-					.build();
-
-		} catch (ValidationException e) {
-
-			return ResponseEntity
-					.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-					.build();
-
-		} catch (Exception e) {
-
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.build();
-
-		}
-	}
+//	@PatchMapping("/alterarsenha")
+//	public ResponseEntity<Object> alterarSenha(@RequestBody String senhas) throws UnauthorizedException {
+//		return ResponseEntity.status(201).build();
+//	}
 
 }

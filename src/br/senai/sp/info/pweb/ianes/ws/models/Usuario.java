@@ -9,10 +9,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.DigestUtils;
 
+import java.util.Collection;
+
 @Entity
-public class Usuario {
+public class Usuario implements Authentication {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,7 +103,40 @@ public class Usuario {
 		return "Usuario [id=" + id + ", tipo=" + tipo + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email="
 				+ email + ", senha=" + senha + "]";
 	}
-	
-	
-	
+
+	@Override
+	public String getName() {
+		return nome;
+	}
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
+
+	@Override
+	public Object getCredentials() {
+		return null;
+	}
+
+	@Override
+	public Object getDetails() {
+		return null;
+	}
+
+	@Override
+	public Object getPrincipal() {
+		return this;
+	}
+
+	@Override
+	public boolean isAuthenticated() {
+		return true;
+	}
+
+	@Override
+	public void setAuthenticated(boolean b) throws IllegalArgumentException {
+
+	}
 }

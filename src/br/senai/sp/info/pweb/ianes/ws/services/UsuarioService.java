@@ -37,8 +37,7 @@ public class UsuarioService {
 		}
 		
 		//Verificando campo de e-mail duplicado
-		Usuario usuarioBuscado = usuarioDAO.buscarPorEmail(usuario.getEmail());
-		if(usuarioBuscado != null) {
+		if (usuarioDAO.buscarPorEmail(usuario.getEmail()) != null) {
 			brUsuario.addError(new FieldError("usuario", "email", "O e-mail ja esta em uso"));
 			throw new ValidationException();
 		}
@@ -57,9 +56,10 @@ public class UsuarioService {
      * @throws EntityNotFoundException
      * @throws UnauthorizedException
      */
-	public Usuario buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+	public Usuario buscarPorId(Long id) throws EntityNotFoundException {
 
 		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
+
 		if (usuarioBuscado == null) {
 			throw new EntityNotFoundException();
 		}
@@ -70,28 +70,18 @@ public class UsuarioService {
     /**
      * Search all users in database
      * @return
-     * @throws UnauthorizedException
      */
-	public List<Usuario> buscarTodos() throws UnauthorizedException {
-
+	public List<Usuario> buscarTodos() {
 		return usuarioDAO.buscarTodos();
-
 	}
 
     /**
      * Delete a user in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-	public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
-
-		Usuario usuarioBuscado = usuarioDAO.buscarId(id);
-		if (usuarioBuscado == null) {
-			throw new EntityNotFoundException();
-		}
-
-		usuarioDAO.deletar(usuarioBuscado);
+	public void deletar(Long id) throws EntityNotFoundException {
+		usuarioDAO.deletar(buscarPorId(id));
 	}
 
     /**
@@ -103,20 +93,6 @@ public class UsuarioService {
 	public void alterar(Usuario usuario) throws EntityNotFoundException, UnauthorizedException {
 
 	    usuarioDAO.alterar(usuario);
-
-	}
-
-    /**
-     * Search a user by email and password
-     * @param usuario
-     * @return
-     * @throws ValidationException
-     */
-	public Usuario autenticar(Usuario usuario) throws ValidationException {
-
-	    usuario.hashearSenha();
-
-		return usuarioDAO.buscarPorEmailESenha(usuario.getEmail(), usuario.getSenha());
 
 	}
 

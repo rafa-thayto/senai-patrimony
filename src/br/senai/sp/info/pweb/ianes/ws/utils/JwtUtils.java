@@ -26,14 +26,14 @@ public class JwtUtils {
      */
     public static String gerarToken(Usuario usuario) throws UnsupportedEncodingException {
 
-        Calendar calendarExpiracao = Calendar.getInstance();
-        calendarExpiracao.add(Calendar.MINUTE, 120);
-        Date dataExpiracao = calendarExpiracao.getTime();
+        Calendar calendarExpiration = Calendar.getInstance();
+        calendarExpiration.add(Calendar.HOUR, 2);
+        Date expirationDate = calendarExpiration.getTime();
 
         return JWT.create()
                 .withIssuer(TOKEN_ISSUER)
                 .withIssuedAt(new Date())
-                .withExpiresAt(dataExpiracao)
+                .withExpiresAt(expirationDate)
                 .withSubject(TOKEN_SUBJECT)
                 .withClaim("id", usuario.getId())
                 .withClaim("nome", usuario.getNome())
