@@ -90,8 +90,17 @@ public class MovimentacaoService {
      * @param movimentacao
      * @throws UnauthorizedException
      */
-    public void alterar(Movimentacao movimentacao) throws UnauthorizedException {
-        movimentacaoDAO.alterar(movimentacao);
+    public Movimentacao alterar(Long id, Movimentacao movimentacao, BindingResult bindingResult) throws ValidationException, UnauthorizedException, EntityNotFoundException {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        Movimentacao movimentacaoBuscada = movimentacao;
+
+        movimentacaoDAO.alterar(buscarPorId(id));
+
+        return movimentacaoBuscada;
     }
 
 

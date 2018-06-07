@@ -8,6 +8,7 @@ import br.senai.sp.info.pweb.ianes.ws.models.CategoriaPatrimonio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 
@@ -23,9 +24,8 @@ public class CategoriaPatrimonioService {
      * @param brCategoria
      * @return
      * @throws ValidationException
-     * @throws UnauthorizedException
      */
-    public CategoriaPatrimonio cadastrar(CategoriaPatrimonio categoria, BindingResult brCategoria) throws ValidationException, UnauthorizedException {
+    public CategoriaPatrimonio cadastrar(CategoriaPatrimonio categoria, BindingResult brCategoria) throws ValidationException {
 
         // Trata validacoes
         if (brCategoria.hasErrors()) {
@@ -33,9 +33,9 @@ public class CategoriaPatrimonioService {
         }
 
         // Verifica se a categoria já existe
-        CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarPorNome(categoria.getNome());
-        if (categoriaBuscada != null) {
-            throw new ValidationException("A categoria já existe");
+        if (categoriaDAO.buscarPorNome(categoria.getNome()) != null) {
+            brCategoria.addError(new FieldError("categoria", "nome", "A categoria está duplicada"));
+            throw new ValidationException();
         }
 
         categoriaDAO.persistir(categoria);
@@ -48,11 +48,11 @@ public class CategoriaPatrimonioService {
      * @param id
      * @return
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public CategoriaPatrimonio buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+    public CategoriaPatrimonio buscarPorId(Long id) throws EntityNotFoundException {
 
         CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarId(id);
+
         if (categoriaBuscada == null) {
             throw new EntityNotFoundException();
         }
@@ -63,9 +63,8 @@ public class CategoriaPatrimonioService {
     /**
      * Search all categoriaPatrimonio in database
      * @return
-     * @throws UnauthorizedException
      */
-    public List<CategoriaPatrimonio> buscarTodos() throws UnauthorizedException {
+    public List<CategoriaPatrimonio> buscarTodos() {
         return categoriaDAO.buscarTodos();
     }
 
@@ -73,25 +72,17 @@ public class CategoriaPatrimonioService {
      * Delete a categoriaPatrimonio in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
-
-        CategoriaPatrimonio categoriaBuscada = categoriaDAO.buscarId(id);
-        if (categoriaBuscada == null) {
-            throw new EntityNotFoundException();
-        }
-
-        categoriaDAO.deletar(categoriaBuscada);
+    public void deletar(Long id) throws EntityNotFoundException {
+        categoriaDAO.deletar(buscarPorId(id));
     }
 
     /**
      * Update categoriaPatrimonio in database
      * @param categoria
-     * @throws UnauthorizedException
      */
-    public void alterar(CategoriaPatrimonio categoria) throws UnauthorizedException {
-        categoriaDAO.alterar(categoria);
-    }
+//    public void alterar(CategoriaPatrimonio categoria) {
+//        categoriaDAO.alterar(categoria);
+//    }
 
 }

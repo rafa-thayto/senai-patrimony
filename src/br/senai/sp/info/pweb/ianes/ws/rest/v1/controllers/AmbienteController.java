@@ -1,7 +1,6 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
 import br.senai.sp.info.pweb.ianes.ws.services.AmbienteService;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/ambientes")
@@ -25,11 +23,10 @@ public class AmbienteController {
     /**
      * Search user by id
      * @param id
-     * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
 
         try {
 
@@ -42,13 +39,8 @@ public class AmbienteController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
                     .build();
 
         } catch (Exception e) {
@@ -63,25 +55,15 @@ public class AmbienteController {
 
     /**
      * Search all users
-     * @param token
      * @return
      */
     @GetMapping
-    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> buscarTodos() {
 
         try {
 
-            List<Ambiente> ambientes = ambienteService.buscarTodos();
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ambientes);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(ambienteService.buscarTodos());
 
         } catch (Exception e) {
 
@@ -94,33 +76,23 @@ public class AmbienteController {
 
     /**
      * Persists the user
-     * @param Ambiente
-     * @param brAmbiente
-     * @param token
+     * @param ambiente
+     * @param bindingResult
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Ambiente Ambiente, BindingResult brAmbiente, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Ambiente ambiente, BindingResult bindingResult) {
 
         try {
 
-            Ambiente ambienteBuscado = ambienteService.cadastrar(Ambiente, brAmbiente);
-
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(ambienteBuscado);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(ambienteService.cadastrar(ambiente, bindingResult));
 
         } catch (ValidationException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-                    .body(MapUtils.mapaDe(brAmbiente));
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
 
         } catch (Exception e) {
 
@@ -132,28 +104,26 @@ public class AmbienteController {
     }
 
     /**
-     * Delete the user
+     * Delete the ambiente
      * @param id
-     * @param token
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> deletar(@PathVariable Long id) {
 
         try {
-
-            Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
 
             ambienteService.deletar(id);
 
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ambienteBuscado);
+                    .noContent()
+                    .build();
 
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
                     .build();
 
         } catch (Exception e) {
@@ -165,33 +135,40 @@ public class AmbienteController {
         }
     }
 
+    /**
+     * Update ambiente
+     * @param id
+     * @param ambiente
+     * @param bindingResult
+     * @return
+     */
     @PutMapping("/{id}")
-    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Ambiente ambiente, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> alterar(@PathVariable Long id, @Valid @RequestBody Ambiente ambiente, BindingResult bindingResult) {
 
         try {
 
-            Ambiente ambienteBuscado = ambienteService.buscarPorId(id);
-
-            ambienteBuscado.setNome(ambiente.getNome());
-
-            ambienteService.alterar(ambienteBuscado);
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(ambienteBuscado);
+                    .ok(ambienteService.alterar(id, ambiente, bindingResult));
 
-        } catch (UnauthorizedException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
         } catch (EntityNotFoundException e) {
+
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
                     .build();
+
+        } catch (ValidationException e) {
+
+            return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
+
         } catch (Exception e) {
+
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
+
         }
     }
 

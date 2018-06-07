@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.DigestUtils;
@@ -125,6 +126,7 @@ public class Usuario implements Authentication {
 		return null;
 	}
 
+	@JsonIgnore
 	@Override
 	public Object getPrincipal() {
 		return this;

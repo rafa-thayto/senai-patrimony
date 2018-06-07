@@ -1,16 +1,18 @@
 package br.senai.sp.info.pweb.ianes.ws.rest.v1.controllers;
 
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
+import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.PatrimonioService;
+import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/v1/patrimonios")
@@ -22,11 +24,10 @@ public class PatrimonioController {
     /**
      * Search user by id
      * @param id
-     * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
 
         try {
 
@@ -42,12 +43,6 @@ public class PatrimonioController {
                     .status(HttpStatus.NOT_FOUND)
                     .build();
 
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-
         } catch (Exception e) {
 
             return ResponseEntity
@@ -60,25 +55,15 @@ public class PatrimonioController {
 
     /**
      * Search all users
-     * @param token
      * @return
      */
     @GetMapping
-    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> buscarTodos() {
 
         try {
 
-            List<Patrimonio> patrimonios = patrimonioService.buscarTodos();
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(patrimonios);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(patrimonioService.buscarTodos());
 
         } catch (Exception e) {
 
@@ -93,47 +78,38 @@ public class PatrimonioController {
      * Persists the user
      * @param patrimonio
      * @param brPatrimonio
-     * @param token
      * @return
      */
-//    @PostMapping
-//    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Patrimonio patrimonio, BindingResult brPatrimonio, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
-//
-//        try {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.CREATED)
-//                    .build();
-//
-//        } catch (UnauthorizedException e) {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.UNAUTHORIZED)
-//                    .build();
-//
-//        } catch (ValidationException e) {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-//                    .body(MapUtils.mapaDe(brPatrimonio));
-//
-//        } catch (Exception e) {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//
-//    }
+    @PostMapping
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Patrimonio patrimonio, BindingResult brPatrimonio) {
+
+        try {
+
+            return ResponseEntity
+                    .ok(patrimonioService.cadastrar(patrimonio, brPatrimonio));
+
+        } catch (ValidationException e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+                    .body(MapUtils.mapaDe(brPatrimonio));
+
+        } catch (Exception e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+
+    }
 
     /**
      * Delete the user
      * @param id
-     * @param token
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<Object> deletar(@PathVariable Long id) {
 
         try {
 
@@ -160,28 +136,24 @@ public class PatrimonioController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Patrimonio patrimonio ,@RequestHeader(name = "X-AUTH-TOKEN") String token) {
-        try {
-
-            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
-
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(patrimonioBuscado);
-
-        } catch (UnauthorizedException e) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Patrimonio patrimonio ,) {
+//        try {
+//
+//            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
+//
+//            return ResponseEntity
+//                    .status(HttpStatus.OK)
+//                    .body(patrimonioBuscado);
+//
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .build();
+//        } catch (Exception e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
+//    }
 }

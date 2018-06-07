@@ -3,6 +3,7 @@ package br.senai.sp.info.pweb.ianes.ws.services;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
+import br.senai.sp.info.pweb.ianes.ws.models.TiposUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -30,7 +31,7 @@ public class UsuarioService {
 	 * 	<li> E-mail ja esta duplicado</li>
 	 * </ul>
 	 */
-	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException, UnauthorizedException {
+	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException {
 		//Trata as validacoes
 		if(brUsuario.hasErrors()) {
 			throw new ValidationException();
@@ -85,15 +86,31 @@ public class UsuarioService {
 	}
 
     /**
-     * Update a user in database
+     * Update user in DB
+     * @param id
      * @param usuario
+     * @param bindingResult
+     * @return
+     * @throws ValidationException
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-	public void alterar(Usuario usuario) throws EntityNotFoundException, UnauthorizedException {
+	public Usuario alterar(Long id,Usuario usuario, BindingResult bindingResult) throws ValidationException, EntityNotFoundException {
 
-	    usuarioDAO.alterar(usuario);
+		if (bindingResult.hasErrors()) {
+			throw new ValidationException();
+		}
 
+		Usuario usuarioBuscado = buscarPorId(id);
+
+		usuarioBuscado.setNome(usuario.getNome());
+		usuarioBuscado.setSobrenome(usuario.getSobrenome());
+		usuarioBuscado.setEmail(usuario.getEmail());
+		usuarioBuscado.setTipo(TiposUsuario.valueOf(usuario.getTipo().toString()));
+		usuarioBuscado.setSenha(usuario.getSenha());
+
+	    usuarioDAO.alterar(usuarioBuscado);
+
+		return usuarioBuscado;
 	}
 
 	public Usuario buscarEmailSenha(Usuario usuario, BindingResult bindingResult) throws ValidationException, EntityNotFoundException {

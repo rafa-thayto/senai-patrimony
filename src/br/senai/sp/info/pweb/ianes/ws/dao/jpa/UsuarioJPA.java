@@ -59,44 +59,44 @@ public class UsuarioJPA implements UsuarioDAO {
 		String hql = "FROM Usuario u";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+
 		return query.list(); 
 		
 	}
 
 	@Override
 	public Usuario buscarPorEmail(String email) {
+
 		String hql = "FROM Usuario u WHERE u.email = :email";
-		
+
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		
 		query.setParameter("email", email);
-		
+
 		List<Usuario> result = query.list();
-		
+
 		if (!result.isEmpty()) {
-			return result.get(0);
-		} else {			
+			return  result.get(0);
+		} else {
 			return null;
 		}
-		
 	}
 
 	@Override
 	public Usuario buscarPorEmailESenha(String email, String senha) {
+
 		String hql = "FROM Usuario u WHERE u.email = :email AND u.senha = :senha";
+
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		
 		query.setParameter("email", email);
 		query.setParameter("senha", senha);
-		
+
 		List<Usuario> result = query.list();
-		
+
 		if (!result.isEmpty()) {
-			return result.get(0);
+			return  result.get(0);
 		} else {
 			return null;
 		}
-		
-	}
 
+	}
 }

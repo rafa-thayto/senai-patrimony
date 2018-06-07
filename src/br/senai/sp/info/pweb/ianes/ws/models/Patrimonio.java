@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Patrimonio {
+public class  Patrimonio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

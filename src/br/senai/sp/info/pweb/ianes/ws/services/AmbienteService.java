@@ -8,6 +8,7 @@ import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 
@@ -23,9 +24,8 @@ public class AmbienteService {
      * @param brambiente
      * @return
      * @throws ValidationException
-     * @throws UnauthorizedException
      */
-    public Ambiente cadastrar(Ambiente ambiente, BindingResult brambiente) throws ValidationException, UnauthorizedException {
+    public Ambiente cadastrar(Ambiente ambiente, BindingResult brambiente) throws ValidationException {
 
         // Trata validacoes
         if (brambiente.hasErrors()) {
@@ -33,9 +33,9 @@ public class AmbienteService {
         }
 
         // Verifica se a ambiente já existe
-        Ambiente ambienteBuscada = ambienteDAO.buscarId(ambiente.getId());
-        if (ambienteBuscada != null) {
-            throw new ValidationException("A ambiente já existe");
+        if (ambienteDAO.buscarPorNome(ambiente.getNome()) != null) {
+            brambiente.addError(new FieldError("ambiente", "nome", "O nome ja esta em uso"));
+            throw new ValidationException();
         }
 
         ambienteDAO.persistir(ambiente);
@@ -48,9 +48,8 @@ public class AmbienteService {
      * @param id
      * @return
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public Ambiente buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+    public Ambiente buscarPorId(Long id) throws EntityNotFoundException {
 
         Ambiente ambienteBuscado = ambienteDAO.buscarId(id);
         if (ambienteBuscado == null) {
@@ -63,9 +62,8 @@ public class AmbienteService {
     /**
      * Search all Ambiente in database
      * @return
-     * @throws UnauthorizedException
      */
-    public List<Ambiente> buscarTodos() throws UnauthorizedException {
+    public List<Ambiente> buscarTodos() {
         return ambienteDAO.buscarTodos();
     }
 
@@ -73,25 +71,32 @@ public class AmbienteService {
      * Delete a Ambiente in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
-
-        Ambiente ambienteBuscada = ambienteDAO.buscarId(id);
-        if (ambienteBuscada == null) {
-            throw new EntityNotFoundException();
-        }
-
-        ambienteDAO.deletar(ambienteBuscada);
+    public void deletar(Long id) throws EntityNotFoundException {
+        ambienteDAO.deletar(buscarPorId(id));
     }
 
     /**
-     * Update Ambiente in database
+     * Update ambiente in database
+     * @param id
      * @param ambiente
-     * @throws UnauthorizedException
+     * @param bindingResult
+     * @return
+     * @throws EntityNotFoundException
+     * @throws ValidationException
      */
-    public void alterar(Ambiente ambiente) throws UnauthorizedException {
-        ambienteDAO.alterar(ambiente);
-    }
+    public Ambiente alterar(Long id, Ambiente ambiente, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
 
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        Ambiente ambienteBuscado = buscarPorId(id);
+        ambienteBuscado.setNome(ambiente.getNome());
+
+        ambienteDAO.alterar(ambienteBuscado);
+
+        return  ambienteBuscado;
+
+    }
 }

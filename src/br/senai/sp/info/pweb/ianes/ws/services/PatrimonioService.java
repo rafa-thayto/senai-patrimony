@@ -6,7 +6,9 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
+import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -19,35 +21,29 @@ public class PatrimonioService {
     @Autowired
     private PatrimonioDAO patrimonioDAO;
 
-    @Autowired
-    private UsuarioDAO usuarioDAO;
-
     /**
      * Persists a patrimonio in dabatase
      * @param patrimonio
      * @param brPatrimonio
      * @return
      * @throws ValidationException
-     * @throws UnauthorizedException
      */
-    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio, Long usuarioId) throws ValidationException, UnauthorizedException {
+    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio) throws ValidationException {
 
         // Trata validacoes
         if (brPatrimonio.hasErrors()) {
             throw new ValidationException();
         }
 
-        // Verifica se a categoria já existe
-        Patrimonio patrimonioBuscado = patrimonioDAO.buscarId(patrimonio.getId());
-        if (patrimonioBuscado != null) {
-            throw new ValidationException("A categoria já existe");
-        }
+        Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        patrimonio.setUsuario(usuarioBuscado);
 
-        patrimonio.setUsuario(usuarioDAO.buscarId(usuarioId));
         // Setting register date
         patrimonio.setData_cadastro(new Date(new Date().getTime()));
+
         patrimonioDAO.persistir(patrimonio);
-        return patrimonioDAO.buscarId(patrimonio.getId());
+
+        return patrimonio;
 
     }
 
@@ -56,9 +52,8 @@ public class PatrimonioService {
      * @param id
      * @return
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public Patrimonio buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+    public Patrimonio buscarPorId(Long id) throws EntityNotFoundException {
 
         Patrimonio categoriaBuscada = patrimonioDAO.buscarId(id);
         if (categoriaBuscada == null) {
@@ -71,9 +66,8 @@ public class PatrimonioService {
     /**
      * Search all patrimonio in database
      * @return
-     * @throws UnauthorizedException
      */
-    public List<Patrimonio> buscarTodos() throws UnauthorizedException {
+    public List<Patrimonio> buscarTodos() {
         return patrimonioDAO.buscarTodos();
     }
 
@@ -81,9 +75,8 @@ public class PatrimonioService {
      * Delete a patrimonio in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
+    public void deletar(Long id) throws EntityNotFoundException {
 
         Patrimonio categoriaBuscada = patrimonioDAO.buscarId(id);
         if (categoriaBuscada == null) {
@@ -93,14 +86,13 @@ public class PatrimonioService {
         patrimonioDAO.deletar(categoriaBuscada);
     }
 
-    /**
-     * Update patrimonio in database
-     * @param patrimonio
-     * @throws UnauthorizedException
-     */
-    public void alterar(Patrimonio patrimonio, Long id) throws UnauthorizedException {
-        patrimonio.setUsuario(usuarioDAO.buscarId(id));
-        patrimonioDAO.alterar(patrimonio);
-    }
+//    /**
+//     * Update patrimonio in database
+//     * @param patrimonio
+//     */
+//    public void alterar(Long id, Patrimonio patrimonio) {
+//        buscarPorId(id);
+//        patrimonioDAO.alterar(patrimonio);
+//    }
 
 }

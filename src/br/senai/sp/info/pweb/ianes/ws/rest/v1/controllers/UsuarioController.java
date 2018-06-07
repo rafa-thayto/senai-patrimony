@@ -87,12 +87,6 @@ public class UsuarioController {
             return ResponseEntity
                     .ok(usuarioService.cadastrar(usuario, brUsuario));
 
-        } catch (UnauthorizedException e) {
-
-		    return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-
 		} catch (ValidationException e) {
 			
 			return ResponseEntity
@@ -118,18 +112,17 @@ public class UsuarioController {
 
 		try {
 
-	        Usuario usuarioBuscado = usuarioService.buscarPorId(id);
-
             usuarioService.deletar(id);
 
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(usuarioBuscado);
+                    .noContent()
+					.build();
 
         } catch (EntityNotFoundException e) {
 
 			return ResponseEntity
-					.status(HttpStatus.NOT_FOUND)
+					.notFound()
+					.header("X-Reason", "Entidade não encontrada")
 					.build();
 
         } catch (Exception e) {
@@ -141,34 +134,40 @@ public class UsuarioController {
         }
 	}
 
-//	/**
-//	 * Update the user
-//	 * @param id
-//	 * @return
-//	 */
-//	@PutMapping("/{id}")
-//	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Usuario usuario) {
-//
-//		try {
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.OK)
-//                    .build();
-//
-//		} catch (UnauthorizedException e) {
-//
-//			return ResponseEntity
-//					.status(HttpStatus.NON_AUTHORITATIVE_I NFORMATION)
-//					.build();
-//
-//		} catch (Exception e) {
-//
-//			return ResponseEntity
-//					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//					.build();
-//		}
-//
-//	}
+    /**
+     * Update the user
+     * @param usuario
+     * @return
+     */
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> alterar(@PathVariable Long id, @Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
+
+		try {
+
+            return ResponseEntity
+                    .ok(usuarioService.alterar(id, usuario, bindingResult));
+
+		} catch (EntityNotFoundException e) {
+
+		    return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
+                    .build();
+
+		} catch (ValidationException e) {
+
+		    return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
+
+		}  catch (Exception e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+
+    }
 
 //	@PatchMapping("/alterarsenha")
 //	public ResponseEntity<Object> alterarSenha(@RequestBody String senhas) throws UnauthorizedException {

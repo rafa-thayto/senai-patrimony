@@ -1,15 +1,14 @@
 package br.senai.sp.info.pweb.ianes.ws.dao.jpa;
 
-import java.util.List;
-
+import br.senai.sp.info.pweb.ianes.ws.dao.AmbienteDAO;
+import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.senai.sp.info.pweb.ianes.ws.dao.AmbienteDAO;
-import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -57,7 +56,25 @@ public class AmbienteJPA implements AmbienteDAO {
 		String hql = "FROM Ambiente a";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+
 		return query.list(); 
 	}
 
+	@Override
+	public Ambiente buscarPorNome(String nome) {
+
+		String hql =  "FROM Ambiente a WHERE a.nome = :nome";
+
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("nome", nome);
+
+		List<Ambiente> result = query.list();
+
+		if (!result.isEmpty()) {
+			return result.get(0);
+		} else {
+			return null;
+		}
+
+	}
 }

@@ -6,9 +6,12 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.ItemPatrimonio;
+import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.util.List;
 
@@ -18,33 +21,20 @@ public class ItemPatrimonioService {
     @Autowired
     private ItemPatrimonioDAO itemPatrimonioDAO;
 
-    @Autowired
-    private UsuarioDAO usuarioDAO;
-
     /**
      * Persists a item in dabatase
      * @param item
-     * @param brItem
      * @return
      * @throws ValidationException
-     * @throws UnauthorizedException
      */
-    public ItemPatrimonio cadastrar(ItemPatrimonio item, BindingResult brItem, Long usuarioId) throws ValidationException, UnauthorizedException {
+    public ItemPatrimonio cadastrar(ItemPatrimonio item) {
 
-        // Trata validacoes
-        if (brItem.hasErrors()) {
-            throw new ValidationException();
-        }
+        Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Verifica se a categoria já existe
-        ItemPatrimonio patrimonioBuscado = itemPatrimonioDAO.buscarId(item.getId());
-        if (patrimonioBuscado != null) {
-            throw new ValidationException("O item já existe");
-        }
-
-        item.setUsuario(usuarioDAO.buscarId(usuarioId));
+        item.setUsuario(usuarioBuscado);
 
         itemPatrimonioDAO.persistir(item);
+
         return item;
 
     }
@@ -54,11 +44,11 @@ public class ItemPatrimonioService {
      * @param id
      * @return
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public ItemPatrimonio buscarPorId(Long id) throws EntityNotFoundException, UnauthorizedException {
+    public ItemPatrimonio buscarPorId(Long id) throws EntityNotFoundException {
 
         ItemPatrimonio categoriaBuscada = itemPatrimonioDAO.buscarId(id);
+
         if (categoriaBuscada == null) {
             throw new EntityNotFoundException();
         }
@@ -69,9 +59,8 @@ public class ItemPatrimonioService {
     /**
      * Search all item in database
      * @return
-     * @throws UnauthorizedException
      */
-    public List<ItemPatrimonio> buscarTodos() throws UnauthorizedException {
+    public List<ItemPatrimonio> buscarTodos() {
         return itemPatrimonioDAO.buscarTodos();
     }
 
@@ -79,25 +68,31 @@ public class ItemPatrimonioService {
      * Delete a item in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
-    public void deletar(Long id) throws EntityNotFoundException, UnauthorizedException {
-
-        ItemPatrimonio categoriaBuscada = itemPatrimonioDAO.buscarId(id);
-        if (categoriaBuscada == null) {
-            throw new EntityNotFoundException();
-        }
-
-        itemPatrimonioDAO.deletar(categoriaBuscada);
+    public void deletar(Long id) throws EntityNotFoundException {
+        itemPatrimonioDAO.deletar(buscarPorId(id));
     }
 
     /**
      * Update item in database
      * @param item
-     * @throws UnauthorizedException
      */
-    public void alterar(ItemPatrimonio item) throws UnauthorizedException {
-        itemPatrimonioDAO.alterar(item);
+    public ItemPatrimonio alterar(Long id, ItemPatrimonio item, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        ItemPatrimonio itemBuscado = item;
+
+        itemBuscado.setPatrimonio(item.getPatrimonio());
+        itemBuscado.setAmbiente(item.getAmbiente());
+        itemBuscado.setUsuario(item.getUsuario());
+
+        itemPatrimonioDAO.alterar(buscarPorId(id));
+
+        return itemBuscado;
+
     }
 
 }

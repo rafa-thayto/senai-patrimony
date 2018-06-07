@@ -26,11 +26,10 @@ public class MovimentacaoController {
     /**
      * Search user by id
      * @param id
-     * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @PathVariable("itemId") String itemId) {
 
         try {
 
@@ -64,11 +63,10 @@ public class MovimentacaoController {
 
     /**
      * Search all users
-     * @param token
      * @return
      */
     @GetMapping
-    public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> buscarTodos(@PathVariable("itemId") String itemId) {
 
         try {
 
@@ -97,11 +95,10 @@ public class MovimentacaoController {
      * Persists the user
      * @param movimentcao
      * @param brMovimentacao
-     * @param token
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Movimentacao movimentcao, BindingResult brMovimentacao, @RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Movimentacao movimentcao, BindingResult brMovimentacao, @PathVariable("itemId") String itemId) {
 
         try {
 
@@ -135,11 +132,10 @@ public class MovimentacaoController {
     /**
      * Delete the user
      * @param id
-     * @param token
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> deletar(@PathVariable Long id, @PathVariable("itemId") String itemId) {
 
         try {
 

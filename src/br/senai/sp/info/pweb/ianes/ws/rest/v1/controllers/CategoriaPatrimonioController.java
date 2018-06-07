@@ -25,11 +25,10 @@ public class CategoriaPatrimonioController {
     /**
      * Search category by id
      * @param id
-     * @param token
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @RequestHeader(name = "x-auth-token") String token) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
 
         try {
 
@@ -45,12 +44,6 @@ public class CategoriaPatrimonioController {
                     .status(HttpStatus.NOT_FOUND)
                     .build();
 
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-
         } catch (Exception e) {
 
             return ResponseEntity
@@ -63,11 +56,10 @@ public class CategoriaPatrimonioController {
 
 	/**
 	 * Search all categories
-	 * @param token
 	 * @return
 	 */
 	@GetMapping
-	public ResponseEntity<Object> buscarTodos(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+	public ResponseEntity<Object> buscarTodos() {
 
 		try {
 
@@ -76,12 +68,6 @@ public class CategoriaPatrimonioController {
 			return ResponseEntity
 					.status(HttpStatus.OK)
 					.body(categorias);
-
-		} catch (UnauthorizedException e) {
-
-			return ResponseEntity
-					.status(HttpStatus.UNAUTHORIZED)
-					.build();
 
 		} catch (Exception e) {
 
@@ -96,11 +82,10 @@ public class CategoriaPatrimonioController {
      * Persists category
      * @param categoria
      * @param brCategoria
-     * @param token
      * @return
      */
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@RequestBody @Valid CategoriaPatrimonio categoria, BindingResult brCategoria, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+	public ResponseEntity<Object> cadastrar(@RequestBody @Valid CategoriaPatrimonio categoria, BindingResult brCategoria) {
 		
 		try {
 
@@ -128,26 +113,24 @@ public class CategoriaPatrimonioController {
 	/**
 	 * Delete the category
 	 * @param id
-	 * @param token
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletar(@PathVariable Long id, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
+	public ResponseEntity<Object> deletar(@PathVariable Long id) {
 
 		try {
 
-			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
-
-			categoriaService.deletar(id);
+            categoriaService.deletar(id);
 
 			return ResponseEntity
-					.status(HttpStatus.OK)
-					.body(categoriaBuscada);
+					.noContent()
+					.build();
 
 		} catch (EntityNotFoundException e) {
 
 			return ResponseEntity
-					.status(HttpStatus.NOT_FOUND)
+					.notFound()
+					.header("X-Reason", "Entidade não encontrada")
 					.build();
 
 		} catch (Exception e) {
@@ -159,34 +142,34 @@ public class CategoriaPatrimonioController {
 		}
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody CategoriaPatrimonio categoria, @RequestHeader(name = "X-AUTH-TOKEN") String token) {
-
-		try {
-
-			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
-
-			categoriaBuscada.setNome(categoria.getNome());
-
-			categoriaService.alterar(categoriaBuscada);
-
-			return ResponseEntity
-					.status(HttpStatus.OK)
-					.body(categoriaBuscada);
-
-		} catch (UnauthorizedException e) {
-			return ResponseEntity
-					.status(HttpStatus.UNAUTHORIZED)
-					.build();
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity
-					.status(HttpStatus.BAD_REQUEST)
-					.build();
-		} catch (Exception e) {
-			return ResponseEntity
-					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.build();
-		}
-	}
+//	@PutMapping("/{id}")
+//	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody CategoriaPatrimonio categoria) {
+//
+//		try {
+//
+//			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
+//
+//			categoriaBuscada.setNome(categoria.getNome());
+//
+//			categoriaService.alterar(categoriaBuscada);
+//
+//			return ResponseEntity
+//					.status(HttpStatus.OK)
+//					.body(categoriaBuscada);
+//
+//		} catch (UnauthorizedException e) {
+//			return ResponseEntity
+//					.status(HttpStatus.UNAUTHORIZED)
+//					.build();
+//		} catch (EntityNotFoundException e) {
+//			return ResponseEntity
+//					.status(HttpStatus.BAD_REQUEST)
+//					.build();
+//		} catch (Exception e) {
+//			return ResponseEntity
+//					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//					.build();
+//		}
+//	}
 
 }
