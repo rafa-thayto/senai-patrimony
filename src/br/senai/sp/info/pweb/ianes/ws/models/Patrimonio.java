@@ -23,6 +23,7 @@ public class  Patrimonio {
 	private String nome;
 	
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "categoria_id", nullable = false)
 	private CategoriaPatrimonio categorias;
 	

@@ -43,7 +43,7 @@ public class PersistenceConfig {
 		sessionFactory.setDataSource(getDataSource());
 		sessionFactory.setHibernateProperties(getHibernateProperties());
 		sessionFactory.setPackagesToScan("br.senai.sp.info.pweb.ianes.ws.models");
-	 
+
 		return sessionFactory;
 	}
 	

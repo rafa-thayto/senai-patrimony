@@ -91,15 +91,23 @@ public class PatrimonioController {
         } catch (ValidationException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+                    .unprocessableEntity()
                     .body(MapUtils.mapaDe(brPatrimonio));
 
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Entidade categoria não foi encontrada!")
+                    .build();
+
+        }  catch (Exception e) {
 
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
         }
+
 
     }
 
@@ -124,7 +132,8 @@ public class PatrimonioController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .notFound()
+                    .header("X-Reason", "Entidade não foi encontrada!")
                     .build();
 
         } catch (Exception e) {
@@ -147,13 +156,38 @@ public class PatrimonioController {
 //                    .body(patrimonioBuscado);
 //
 //        } catch (EntityNotFoundException e) {
+//
 //            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
+//                    .notFound()
+//                    .header("X-Reason", "Entidade não foi encontrada")
 //                    .build();
+//
 //        } catch (Exception e) {
 //            return ResponseEntity
 //                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
 //                    .build();
 //        }
 //    }
+
+    @GetMapping("/{id}/itens")
+    public ResponseEntity<Object> buscarItensDoPatrimonio(@PathVariable("id") Long id) {
+        try {
+
+            return ResponseEntity
+                    .ok(patrimonioService.buscarItens(id));
+
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Entidade não foi encontrada")
+                    .build();
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
 }

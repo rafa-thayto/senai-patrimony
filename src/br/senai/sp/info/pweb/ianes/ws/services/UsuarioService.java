@@ -33,10 +33,10 @@ public class UsuarioService {
 	 */
 	public Usuario cadastrar(Usuario usuario, BindingResult brUsuario) throws ValidationException {
 		//Trata as validacoes
-		if(brUsuario.hasErrors()) {
+		if (brUsuario.hasErrors()) {
 			throw new ValidationException();
 		}
-		
+
 		//Verificando campo de e-mail duplicado
 		if (usuarioDAO.buscarPorEmail(usuario.getEmail()) != null) {
 			brUsuario.addError(new FieldError("usuario", "email", "O e-mail ja esta em uso"));

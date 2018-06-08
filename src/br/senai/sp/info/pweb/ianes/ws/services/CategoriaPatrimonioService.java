@@ -34,7 +34,7 @@ public class CategoriaPatrimonioService {
 
         // Verifica se a categoria já existe
         if (categoriaDAO.buscarPorNome(categoria.getNome()) != null) {
-            brCategoria.addError(new FieldError("categoria", "nome", "A categoria está duplicada"));
+            brCategoria.addError(new FieldError("categoria", "nome", "A categoria já existe!"));
             throw new ValidationException();
         }
 
@@ -81,8 +81,20 @@ public class CategoriaPatrimonioService {
      * Update categoriaPatrimonio in database
      * @param categoria
      */
-//    public void alterar(CategoriaPatrimonio categoria) {
-//        categoriaDAO.alterar(categoria);
-//    }
+    public CategoriaPatrimonio alterar(Long id, CategoriaPatrimonio categoria, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
+
+        CategoriaPatrimonio categoriaBuscada = buscarPorId(id);
+        categoriaBuscada.setNome(categoria.getNome());
+
+        // Verifica se a categoria já existe
+        if (categoriaDAO.buscarPorNome(categoriaBuscada.getNome()) != null) {
+            bindingResult.addError(new FieldError("categoria", "nome", "Não pode colocar o mesmo NOME!"));
+            throw new ValidationException();
+        }
+
+        categoriaDAO.alterar(categoriaBuscada);
+
+        return categoriaBuscada;
+    }
 
 }

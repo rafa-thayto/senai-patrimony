@@ -26,15 +26,19 @@ public class Movimentacao {
 	@ManyToOne
 	@JoinColumn(name = "ambiente_origem", nullable = false)
 	private Ambiente origem;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ambiente_destino", nullable = false)
 	private Ambiente destino;
-	
+
 	@Column(nullable = false)
 	@NotNull
 	private Date data_movimentacao;
-	
+
+	@OneToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuario usuario;
+
 	public Long getId() {
 		return id;
 	}
@@ -42,7 +46,7 @@ public class Movimentacao {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Patrimonio getPatrimonio() {
 		return patrimonio;
 	}
@@ -83,8 +87,5 @@ public class Movimentacao {
 		this.usuario = usuario;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuario usuario;
 
 }

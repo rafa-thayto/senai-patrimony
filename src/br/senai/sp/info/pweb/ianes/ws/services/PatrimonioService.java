@@ -1,12 +1,15 @@
 package br.senai.sp.info.pweb.ianes.ws.services;
 
+import br.senai.sp.info.pweb.ianes.ws.dao.ItemPatrimonioDAO;
 import br.senai.sp.info.pweb.ianes.ws.dao.PatrimonioDAO;
 import br.senai.sp.info.pweb.ianes.ws.dao.UsuarioDAO;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
+import br.senai.sp.info.pweb.ianes.ws.models.ItemPatrimonio;
 import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,12 @@ public class PatrimonioService {
     @Autowired
     private PatrimonioDAO patrimonioDAO;
 
+    @Autowired
+    private ItemPatrimonioDAO itemPatrimonioDAO;
+
+    @Autowired
+    private CategoriaPatrimonioService categoriaService;
+
     /**
      * Persists a patrimonio in dabatase
      * @param patrimonio
@@ -28,7 +37,7 @@ public class PatrimonioService {
      * @return
      * @throws ValidationException
      */
-    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio) throws ValidationException {
+    public Patrimonio cadastrar(Patrimonio patrimonio, BindingResult brPatrimonio) throws ValidationException, EntityNotFoundException {
 
         // Trata validacoes
         if (brPatrimonio.hasErrors()) {
@@ -40,6 +49,9 @@ public class PatrimonioService {
 
         // Setting register date
         patrimonio.setData_cadastro(new Date(new Date().getTime()));
+
+        // Buscando categoria para settar bunitin
+        patrimonio.setCategorias(categoriaService.buscarPorId(patrimonio.getCategorias().getId()));
 
         patrimonioDAO.persistir(patrimonio);
 
@@ -86,13 +98,28 @@ public class PatrimonioService {
         patrimonioDAO.deletar(categoriaBuscada);
     }
 
-//    /**
-//     * Update patrimonio in database
-//     * @param patrimonio
-//     */
-//    public void alterar(Long id, Patrimonio patrimonio) {
-//        buscarPorId(id);
-//        patrimonioDAO.alterar(patrimonio);
-//    }
+    public List<ItemPatrimonio> buscarItens(Long id) throws EntityNotFoundException {
+
+        if (patrimonioDAO.buscarId(id) == null) {
+            throw new EntityNotFoundException();
+        }
+
+        return itemPatrimonioDAO.buscarItensPorIdPatrimonio(id);
+
+    }
+
+
+    /**
+     * Update patrimonio in database
+     * @param patrimonio
+     */
+    public Patrimonio alterar(Long id, Patrimonio patrimonio) throws EntityNotFoundException {
+        Patrimonio patrimonioBuscado = buscarPorId(id);
+
+
+        patrimonioDAO.alterar(patrimonioBuscado);
+
+        return patrimonioBuscado;
+    }
 
 }

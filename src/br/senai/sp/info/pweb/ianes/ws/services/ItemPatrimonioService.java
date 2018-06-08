@@ -6,6 +6,7 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.ItemPatrimonio;
+import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,16 +22,24 @@ public class ItemPatrimonioService {
     @Autowired
     private ItemPatrimonioDAO itemPatrimonioDAO;
 
+    @Autowired
+    private AmbienteService ambienteService;
+
+    @Autowired
+    private PatrimonioService patrimonioService;
+
     /**
      * Persists a item in dabatase
      * @param item
      * @return
      * @throws ValidationException
      */
-    public ItemPatrimonio cadastrar(ItemPatrimonio item) {
+    public ItemPatrimonio cadastrar(ItemPatrimonio item) throws EntityNotFoundException {
 
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        item.setPatrimonio(patrimonioService.buscarPorId(item.getPatrimonio().getId()));
+        item.setAmbiente(ambienteService.buscarPorId(item.getPatrimonio().getId()));
         item.setUsuario(usuarioBuscado);
 
         itemPatrimonioDAO.persistir(item);
@@ -80,6 +89,11 @@ public class ItemPatrimonioService {
     public ItemPatrimonio alterar(Long id, ItemPatrimonio item, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
 
         if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        if (bindingResult.hasFieldErrors("id")) {
+            bindingResult.addError(new FieldError("item",  "id", "Id tem que ser único e não nulo"));
             throw new ValidationException();
         }
 

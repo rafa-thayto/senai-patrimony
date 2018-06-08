@@ -60,4 +60,24 @@ public class ItemPatrimonioJPA implements ItemPatrimonioDAO {
 		return query.list(); 
 	}
 
+	@Override
+	public List<ItemPatrimonio> buscarItensPorIdPatrimonio(Long id) {
+		String hql = "FROM ItemPatrimonio ip WHERE ip.patrimonio_id = :id";
+
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("id", id);
+
+		List<ItemPatrimonio> result = query.list();
+
+		if (!result.isEmpty()) {
+
+			return query.list();
+
+		} else {
+
+			return null;
+
+		}
+
+	}
 }

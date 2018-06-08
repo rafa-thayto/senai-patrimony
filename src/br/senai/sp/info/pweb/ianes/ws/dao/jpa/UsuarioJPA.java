@@ -20,6 +20,7 @@ public class UsuarioJPA implements UsuarioDAO {
 	
 	@Override
 	public Usuario persistir(Usuario obj) {
+		obj.getTipo().getDescricao();
 		sessionFactory.getCurrentSession().persist(obj);
 		return obj;
 	}

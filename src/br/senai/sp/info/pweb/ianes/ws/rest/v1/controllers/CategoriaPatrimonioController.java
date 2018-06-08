@@ -142,34 +142,34 @@ public class CategoriaPatrimonioController {
 		}
 	}
 
-//	@PutMapping("/{id}")
-//	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody CategoriaPatrimonio categoria) {
-//
-//		try {
-//
-//			CategoriaPatrimonio categoriaBuscada = categoriaService.buscarPorId(id);
-//
-//			categoriaBuscada.setNome(categoria.getNome());
-//
-//			categoriaService.alterar(categoriaBuscada);
-//
-//			return ResponseEntity
-//					.status(HttpStatus.OK)
-//					.body(categoriaBuscada);
-//
-//		} catch (UnauthorizedException e) {
-//			return ResponseEntity
-//					.status(HttpStatus.UNAUTHORIZED)
-//					.build();
-//		} catch (EntityNotFoundException e) {
-//			return ResponseEntity
-//					.status(HttpStatus.BAD_REQUEST)
-//					.build();
-//		} catch (Exception e) {
-//			return ResponseEntity
-//					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//					.build();
-//		}
-//	}
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody @Valid CategoriaPatrimonio categoria, BindingResult bindingResult) {
+
+		try {
+
+			return ResponseEntity
+					.ok(categoriaService.alterar(id, categoria, bindingResult));
+
+		} catch (EntityNotFoundException e) {
+
+			return ResponseEntity
+					.notFound()
+					.header("X-Reason", "Entidade não encontrada")
+					.build();
+
+		} catch (ValidationException e) {
+
+			return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
+
+		} catch (Exception e) {
+
+		    return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+
+        }
+	}
 
 }

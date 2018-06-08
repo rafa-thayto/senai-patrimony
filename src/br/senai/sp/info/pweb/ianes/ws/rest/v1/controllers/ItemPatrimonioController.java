@@ -112,12 +112,19 @@ public class ItemPatrimonioController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody ItemPatrimonio item) {
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid ItemPatrimonio item) {
 
         try {
 
             return ResponseEntity
                     .ok(itemPatrimonioService.cadastrar(item));
+
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Alguma das entidades não foi encontrada")
+                    .build();
 
         } catch (Exception e) {
 
@@ -127,26 +134,33 @@ public class ItemPatrimonioController {
         }
 
     }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody ItemPatrimonio item, BindingResult bindingResult) {
-//
-//        try {
-//
-//            return ResponseEntity
-//                    .ok(itemPatrimonioService.alterar(id, item, bindingResult));
-//
-//        } catch (EntityNotFoundException e) {
-//
-//            return ResponseEntity
-//                    .notFound()
-//                    .header("X-Reason", "Entidade não encontrada")
-//                    .build();
-//
-//        } catch (Exception e) {
-//            return ResponseEntity
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody @Valid ItemPatrimonio item, BindingResult bindingResult) {
+
+        try {
+
+            return ResponseEntity
+                    .ok(itemPatrimonioService.alterar(id, item, bindingResult));
+
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
+                    .build();
+
+        } catch (ValidationException e) {
+
+            return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
 
 }
