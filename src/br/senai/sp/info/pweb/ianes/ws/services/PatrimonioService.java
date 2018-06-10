@@ -51,7 +51,7 @@ public class PatrimonioService {
         patrimonio.setData_cadastro(new Date(new Date().getTime()));
 
         // Buscando categoria para settar bunitin
-        patrimonio.setCategorias(categoriaService.buscarPorId(patrimonio.getCategorias().getId()));
+        patrimonio.setCategoria(categoriaService.buscarPorId(patrimonio.getCategoria().getId()));
 
         patrimonioDAO.persistir(patrimonio);
 
@@ -113,9 +113,18 @@ public class PatrimonioService {
      * Update patrimonio in database
      * @param patrimonio
      */
-    public Patrimonio alterar(Long id, Patrimonio patrimonio) throws EntityNotFoundException {
-        Patrimonio patrimonioBuscado = buscarPorId(id);
+    public Patrimonio alterar(Long id, Patrimonio patrimonio, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
 
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        Patrimonio patrimonioBuscado = buscarPorId(id);
+        patrimonioBuscado.setNome(patrimonio.getNome());
+        patrimonioBuscado.setCategoria(patrimonio.getCategoria());
+
+        Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        patrimonioBuscado.setUsuario(usuarioBuscado);
 
         patrimonioDAO.alterar(patrimonioBuscado);
 

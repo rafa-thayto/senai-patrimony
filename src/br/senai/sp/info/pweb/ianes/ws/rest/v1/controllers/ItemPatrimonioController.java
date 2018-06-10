@@ -4,7 +4,6 @@ import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
 import br.senai.sp.info.pweb.ianes.ws.models.ItemPatrimonio;
 import br.senai.sp.info.pweb.ianes.ws.services.ItemPatrimonioService;
-import br.senai.sp.info.pweb.ianes.ws.services.UsuarioService;
 import br.senai.sp.info.pweb.ianes.ws.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -112,12 +111,18 @@ public class ItemPatrimonioController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid ItemPatrimonio item) {
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid ItemPatrimonio item, BindingResult bindingResult) {
 
         try {
 
             return ResponseEntity
-                    .ok(itemPatrimonioService.cadastrar(item));
+                    .ok(itemPatrimonioService.cadastrar(item, bindingResult));
+
+        } catch (ValidationException e) {
+
+            return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(bindingResult));
 
         } catch (EntityNotFoundException e) {
 

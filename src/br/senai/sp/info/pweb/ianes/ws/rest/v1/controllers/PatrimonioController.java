@@ -121,13 +121,11 @@ public class PatrimonioController {
 
         try {
 
-            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
-
             patrimonioService.deletar(id);
 
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(patrimonioBuscado);
+                    .noContent()
+                    .build();
 
         } catch (EntityNotFoundException e) {
 
@@ -145,32 +143,36 @@ public class PatrimonioController {
         }
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody Patrimonio patrimonio ,) {
-//        try {
-//
-//            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
-//
-//            return ResponseEntity
-//                    .status(HttpStatus.OK)
-//                    .body(patrimonioBuscado);
-//
-//        } catch (EntityNotFoundException e) {
-//
-//            return ResponseEntity
-//                    .notFound()
-//                    .header("X-Reason", "Entidade não foi encontrada")
-//                    .build();
-//
-//        } catch (Exception e) {
-//            return ResponseEntity
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> alterar(@PathVariable Long id, @RequestBody @Valid Patrimonio patrimonio,  BindingResult brPatrimonio) {
+        try {
+
+            return ResponseEntity
+                    .ok(patrimonioService.alterar(id, patrimonio, brPatrimonio));
+
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "Entidade não foi encontrada")
+                    .build();
+
+        } catch (ValidationException e) {
+
+            return ResponseEntity
+                    .unprocessableEntity()
+                    .body(MapUtils.mapaDe(brPatrimonio));
+
+        } catch (Exception e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
 
     @GetMapping("/{id}/itens")
-    public ResponseEntity<Object> buscarItensDoPatrimonio(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> buscarItensDoPatrimonio(@PathVariable Long id) {
         try {
 
             return ResponseEntity

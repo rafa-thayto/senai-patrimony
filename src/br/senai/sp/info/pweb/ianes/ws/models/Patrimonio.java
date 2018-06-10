@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class  Patrimonio {
+public class Patrimonio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class  Patrimonio {
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name = "categoria_id", nullable = false)
-	private CategoriaPatrimonio categorias;
+	private CategoriaPatrimonio categoria;
 	
 	@Column(nullable = false)
 	private Date data_cadastro;
@@ -50,12 +50,12 @@ public class  Patrimonio {
 		this.nome = nome;
 	}
 
-	public CategoriaPatrimonio getCategorias() {
-		return categorias;
+	public CategoriaPatrimonio getCategoria() {
+		return categoria;
 	}
 
-	public void setCategorias(CategoriaPatrimonio categorias) {
-		this.categorias = categorias;
+	public void setCategoria(CategoriaPatrimonio categorias) {
+		this.categoria = categorias;
 	}
 
 	public Date getData_cadastro() {

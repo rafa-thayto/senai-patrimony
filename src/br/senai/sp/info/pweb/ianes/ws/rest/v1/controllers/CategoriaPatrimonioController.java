@@ -120,7 +120,7 @@ public class CategoriaPatrimonioController {
 
 		try {
 
-            categoriaService.deletar(id);
+			categoriaService.deletar(id);
 
 			return ResponseEntity
 					.noContent()

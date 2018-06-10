@@ -34,7 +34,17 @@ public class ItemPatrimonioService {
      * @return
      * @throws ValidationException
      */
-    public ItemPatrimonio cadastrar(ItemPatrimonio item) throws EntityNotFoundException {
+    public ItemPatrimonio cadastrar(ItemPatrimonio item, BindingResult bindingResult) throws EntityNotFoundException, ValidationException {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException();
+        }
+
+        if (bindingResult.hasFieldErrors("id")) {
+            bindingResult.addError(new FieldError("item",  "id", "Id tem que ser único e não nulo"));
+            throw new ValidationException();
+        }
+
 
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

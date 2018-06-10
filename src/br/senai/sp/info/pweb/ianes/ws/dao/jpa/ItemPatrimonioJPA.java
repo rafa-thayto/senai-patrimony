@@ -70,11 +70,12 @@ public class ItemPatrimonioJPA implements ItemPatrimonioDAO {
 		List<ItemPatrimonio> result = query.list();
 
 		if (!result.isEmpty()) {
-
+			System.out.println("Listando itens do patrimonio");
 			return query.list();
 
 		} else {
 
+			System.out.println("NÃO TA LISTANDO");
 			return null;
 
 		}

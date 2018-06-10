@@ -18,9 +18,11 @@ public class ItemPatrimonio {
 	private Long id;
 
 	@ManyToOne
+	@NotNull
 	private Patrimonio patrimonio;
 
 	@ManyToOne
+	@NotNull
 	private Ambiente ambiente;
 
 	@OneToOne
