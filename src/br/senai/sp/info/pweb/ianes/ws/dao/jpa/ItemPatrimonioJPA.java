@@ -62,7 +62,7 @@ public class ItemPatrimonioJPA implements ItemPatrimonioDAO {
 
 	@Override
 	public List<ItemPatrimonio> buscarItensPorIdPatrimonio(Long id) {
-		String hql = "FROM ItemPatrimonio ip WHERE ip.patrimonio_id = :id";
+		String hql = "FROM ItemPatrimonio ip WHERE ip.patrimonio.id = :id";
 
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("id", id);
@@ -70,15 +70,26 @@ public class ItemPatrimonioJPA implements ItemPatrimonioDAO {
 		List<ItemPatrimonio> result = query.list();
 
 		if (!result.isEmpty()) {
-			System.out.println("Listando itens do patrimonio");
 			return query.list();
-
 		} else {
-
-			System.out.println("NÃO TA LISTANDO");
 			return null;
-
 		}
 
+	}
+
+	@Override
+	public ItemPatrimonio buscarPorNome(String nome) {
+		String hql = "FROM ItemPatrimonio ip WHERE ip.nome = :nome";
+
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("nome", nome);
+
+		List<ItemPatrimonio> result = query.list();
+
+		if (!result.isEmpty()) {
+			return result.get(0);
+		} else {
+			return null;
+		}
 	}
 }

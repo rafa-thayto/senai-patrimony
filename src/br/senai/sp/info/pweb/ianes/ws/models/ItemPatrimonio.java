@@ -2,8 +2,6 @@ package br.senai.sp.info.pweb.ianes.ws.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -23,7 +21,7 @@ public class ItemPatrimonio {
 
 	@ManyToOne
 	@NotNull
-	private Ambiente ambiente;
+	private Ambiente ambienteAtual;
 
 	@OneToOne
 	private Usuario usuario;
@@ -44,12 +42,12 @@ public class ItemPatrimonio {
 		this.patrimonio = patrimonio;
 	}
 
-	public Ambiente getAmbiente() {
-		return ambiente;
+	public Ambiente getAmbienteAtual() {
+		return ambienteAtual;
 	}
 
-	public void setAmbiente(Ambiente ambiente) {
-		this.ambiente = ambiente;
+	public void setAmbienteAtual(Ambiente ambienteAtual) {
+		this.ambienteAtual = ambienteAtual;
 	}
 
 	public Usuario getUsuario() {

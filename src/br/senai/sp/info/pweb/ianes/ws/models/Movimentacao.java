@@ -20,19 +20,19 @@ public class Movimentacao {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "patrimonio_id", nullable = false)
-	private Patrimonio patrimonio;
+	@JoinColumn(name = "itempatrimonio_id", nullable = false)
+	private ItemPatrimonio itemPatrimonio;
 
 	@ManyToOne
 	@JoinColumn(name = "ambiente_origem", nullable = false)
 	private Ambiente origem;
 
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "ambiente_destino", nullable = false)
 	private Ambiente destino;
 
 	@Column(nullable = false)
-	@NotNull
 	private Date data_movimentacao;
 
 	@OneToOne
@@ -47,12 +47,12 @@ public class Movimentacao {
 		this.id = id;
 	}
 
-	public Patrimonio getPatrimonio() {
-		return patrimonio;
+	public ItemPatrimonio getItemPatrimonio() {
+		return itemPatrimonio;
 	}
 
-	public void setPatrimonio(Patrimonio patrimonio) {
-		this.patrimonio = patrimonio;
+	public void setItemPatrimonio(ItemPatrimonio itemPatrimonio) {
+		this.itemPatrimonio = itemPatrimonio;
 	}
 
 	public Ambiente getOrigem() {

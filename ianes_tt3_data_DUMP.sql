@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping data for table `ambiente`
+-- Dumping data for table `ambienteAtual`
 --
 
-LOCK TABLES `ambiente` WRITE;
-/*!40000 ALTER TABLE `ambiente` DISABLE KEYS */;
-INSERT INTO `ambiente` VALUES (10,'ambiente10'),(2,'ambiente2'),(3,'ambiente3'),(4,'ambiente4'),(5,'ambiente5'),(6,'ambiente6'),(8,'ambiente8'),(9,'ambiente9'),(1,'ambienteAlterado1');
-/*!40000 ALTER TABLE `ambiente` ENABLE KEYS */;
+LOCK TABLES `ambienteAtual` WRITE;
+/*!40000 ALTER TABLE `ambienteAtual` DISABLE KEYS */;
+INSERT INTO `ambienteAtual` VALUES (10,'ambiente10'),(2,'ambiente2'),(3,'ambiente3'),(4,'ambiente4'),(5,'ambiente5'),(6,'ambiente6'),(8,'ambiente8'),(9,'ambiente9'),(1,'ambienteAlterado1');
+/*!40000 ALTER TABLE `ambienteAtual` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

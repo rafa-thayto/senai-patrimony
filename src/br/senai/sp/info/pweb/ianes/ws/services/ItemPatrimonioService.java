@@ -1,12 +1,10 @@
 package br.senai.sp.info.pweb.ianes.ws.services;
 
 import br.senai.sp.info.pweb.ianes.ws.dao.ItemPatrimonioDAO;
-import br.senai.sp.info.pweb.ianes.ws.dao.UsuarioDAO;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.EntityNotFoundException;
-import br.senai.sp.info.pweb.ianes.ws.exceptions.UnauthorizedException;
 import br.senai.sp.info.pweb.ianes.ws.exceptions.ValidationException;
+import br.senai.sp.info.pweb.ianes.ws.models.Ambiente;
 import br.senai.sp.info.pweb.ianes.ws.models.ItemPatrimonio;
-import br.senai.sp.info.pweb.ianes.ws.models.Patrimonio;
 import br.senai.sp.info.pweb.ianes.ws.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +47,7 @@ public class ItemPatrimonioService {
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         item.setPatrimonio(patrimonioService.buscarPorId(item.getPatrimonio().getId()));
-        item.setAmbiente(ambienteService.buscarPorId(item.getPatrimonio().getId()));
+        item.setAmbienteAtual(ambienteService.buscarPorId(item.getPatrimonio().getId()));
         item.setUsuario(usuarioBuscado);
 
         itemPatrimonioDAO.persistir(item);
@@ -107,16 +105,27 @@ public class ItemPatrimonioService {
             throw new ValidationException();
         }
 
-        ItemPatrimonio itemBuscado = item;
+        ItemPatrimonio itemBuscado = itemPatrimonioDAO.buscarId(id);
 
         itemBuscado.setPatrimonio(item.getPatrimonio());
-        itemBuscado.setAmbiente(item.getAmbiente());
-        itemBuscado.setUsuario(item.getUsuario());
+        itemBuscado.setAmbienteAtual(item.getAmbienteAtual());
 
-        itemPatrimonioDAO.alterar(buscarPorId(id));
+        Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        itemBuscado.setUsuario(usuarioBuscado);
+
+        itemPatrimonioDAO.alterar(itemBuscado);
 
         return itemBuscado;
 
     }
 
+    public void alterarAmbiente(Long id, Ambiente destino) {
+
+        ItemPatrimonio itemBuscado = itemPatrimonioDAO.buscarId(id);
+
+        itemBuscado.setAmbienteAtual(destino);
+
+        itemPatrimonioDAO.alterar(itemBuscado);
+
+    }
 }

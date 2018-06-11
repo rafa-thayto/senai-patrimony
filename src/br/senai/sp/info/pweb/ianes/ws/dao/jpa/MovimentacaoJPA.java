@@ -54,7 +54,7 @@ public class MovimentacaoJPA implements MovimentacaoDAO {
 
 	@Override
 	public List<Movimentacao> buscarTodos() {
-		String hql = "FROM Ambiente a";
+		String hql = "FROM Movimentacao m";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		return query.list(); 

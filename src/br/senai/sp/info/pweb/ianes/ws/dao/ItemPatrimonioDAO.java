@@ -7,4 +7,5 @@ import java.util.List;
 public interface ItemPatrimonioDAO extends DAO<ItemPatrimonio> {
 
     List<ItemPatrimonio> buscarItensPorIdPatrimonio(Long id);
+    ItemPatrimonio buscarPorNome(String nome);
 }

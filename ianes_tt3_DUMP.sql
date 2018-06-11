@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ambiente`
+-- Table structure for table `ambienteAtual`
 --
 
-DROP TABLE IF EXISTS `ambiente`;
+DROP TABLE IF EXISTS `ambienteAtual`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ambiente` (
+CREATE TABLE `ambienteAtual` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `nome` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
@@ -31,13 +31,13 @@ CREATE TABLE `ambiente` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ambiente`
+-- Dumping data for table `ambienteAtual`
 --
 
-LOCK TABLES `ambiente` WRITE;
-/*!40000 ALTER TABLE `ambiente` DISABLE KEYS */;
-INSERT INTO `ambiente` VALUES (10,'ambiente10'),(2,'ambiente2'),(3,'ambiente3'),(4,'ambiente4'),(5,'ambiente5'),(6,'ambiente6'),(8,'ambiente8'),(9,'ambiente9'),(1,'ambienteAlterado1');
-/*!40000 ALTER TABLE `ambiente` ENABLE KEYS */;
+LOCK TABLES `ambienteAtual` WRITE;
+/*!40000 ALTER TABLE `ambienteAtual` DISABLE KEYS */;
+INSERT INTO `ambienteAtual` VALUES (10,'ambiente10'),(2,'ambiente2'),(3,'ambiente3'),(4,'ambiente4'),(5,'ambiente5'),(6,'ambiente6'),(8,'ambiente8'),(9,'ambiente9'),(1,'ambienteAlterado1');
+/*!40000 ALTER TABLE `ambienteAtual` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -81,7 +81,7 @@ CREATE TABLE `itempatrimonio` (
   KEY `FK2esnwx8aqejwfuanr1vgsytc6` (`ambiente_id`),
   KEY `FK9ha8f4xu9yldarxp53l0d67c2` (`patrimonio_id`),
   KEY `FK6gq8esk6m9dncnoavi5dmh5tg` (`usuario_id`),
-  CONSTRAINT `FK2esnwx8aqejwfuanr1vgsytc6` FOREIGN KEY (`ambiente_id`) REFERENCES `ambiente` (`id`),
+  CONSTRAINT `FK2esnwx8aqejwfuanr1vgsytc6` FOREIGN KEY (`ambiente_id`) REFERENCES `ambienteAtual` (`id`),
   CONSTRAINT `FK6gq8esk6m9dncnoavi5dmh5tg` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
   CONSTRAINT `FK9ha8f4xu9yldarxp53l0d67c2` FOREIGN KEY (`patrimonio_id`) REFERENCES `patrimonio` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -116,8 +116,8 @@ CREATE TABLE `movimentacao` (
   KEY `FK78494f793xpdk18010jxti97y` (`patrimonio_id`),
   KEY `FKn1b61heu0e9kvh1ej2wnnws61` (`usuario_id`),
   CONSTRAINT `FK78494f793xpdk18010jxti97y` FOREIGN KEY (`patrimonio_id`) REFERENCES `patrimonio` (`id`),
-  CONSTRAINT `FKdyh77dk73eilgdtduoyvlcwq8` FOREIGN KEY (`ambiente_origem`) REFERENCES `ambiente` (`id`),
-  CONSTRAINT `FKgrpkbntgmtbojo5lteu8i35r6` FOREIGN KEY (`ambiente_destino`) REFERENCES `ambiente` (`id`),
+  CONSTRAINT `FKdyh77dk73eilgdtduoyvlcwq8` FOREIGN KEY (`ambiente_origem`) REFERENCES `ambienteAtual` (`id`),
+  CONSTRAINT `FKgrpkbntgmtbojo5lteu8i35r6` FOREIGN KEY (`ambiente_destino`) REFERENCES `ambienteAtual` (`id`),
   CONSTRAINT `FKn1b61heu0e9kvh1ej2wnnws61` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

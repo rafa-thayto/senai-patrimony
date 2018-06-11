@@ -31,16 +31,14 @@ public class PatrimonioController {
 
         try {
 
-            Patrimonio patrimonioBuscado = patrimonioService.buscarPorId(id);
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(patrimonioBuscado);
+                    .ok(patrimonioService.buscarPorId(id));
 
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .notFound()
+                    .header("X-Reason", "Entidade não encontrada")
                     .build();
 
         } catch (Exception e) {

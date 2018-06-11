@@ -29,7 +29,7 @@ public class MovimentacaoController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id, @PathVariable("itemId") Long itemId) {
 
         try {
 
@@ -42,13 +42,8 @@ public class MovimentacaoController {
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+                    .notFound()
+                    .header("X-Reason", "Alguma das entidade não foi encontrada")
                     .build();
 
         } catch (Exception e) {
@@ -70,17 +65,8 @@ public class MovimentacaoController {
 
         try {
 
-            List<Movimentacao> movimentacoes = movientacaoService.buscarTodos();
-
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(movimentacoes);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(movientacaoService.buscarTodos());
 
         } catch (Exception e) {
 
@@ -93,64 +79,29 @@ public class MovimentacaoController {
 
     /**
      * Persists the user
-     * @param movimentcao
+     * @param movimentacao
      * @param brMovimentacao
      * @return
      */
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Movimentacao movimentcao, BindingResult brMovimentacao, @PathVariable("itemId") String itemId) {
+    public ResponseEntity<Object> movimentar(@RequestBody @Valid Movimentacao movimentacao, BindingResult brMovimentacao, @PathVariable("itemId") Long itemId) {
 
         try {
 
-            Movimentacao movimentcaoCadastrada = movientacaoService.cadastrar(movimentcao, brMovimentacao);
-
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(movimentcaoCadastrada);
-
-        } catch (UnauthorizedException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+                    .ok(movientacaoService.movimentar(movimentacao, brMovimentacao, itemId));
 
         } catch (ValidationException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+                    .unprocessableEntity()
                     .body(MapUtils.mapaDe(brMovimentacao));
-
-        } catch (Exception e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-
-    }
-
-    /**
-     * Delete the user
-     * @param id
-     * @return
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id, @PathVariable("itemId") String itemId) {
-
-        try {
-
-            Movimentacao movimentacaoBuscada = movientacaoService.buscarPorId(id);
-
-            movientacaoService.deletar(id);
-
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(movimentacaoBuscada);
 
         } catch (EntityNotFoundException e) {
 
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .notFound()
+                    .header("X-Reason", "Alguma das entidades não foi encontrada")
                     .build();
 
         } catch (Exception e) {
@@ -160,6 +111,7 @@ public class MovimentacaoController {
                     .build();
 
         }
+
     }
 
 }
