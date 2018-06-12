@@ -87,7 +87,6 @@ public class MovimentacaoController {
     public ResponseEntity<Object> movimentar(@RequestBody @Valid Movimentacao movimentacao, BindingResult brMovimentacao, @PathVariable("itemId") Long itemId) {
 
         try {
-
             return ResponseEntity
                     .ok(movientacaoService.movimentar(movimentacao, brMovimentacao, itemId));
 
@@ -105,6 +104,7 @@ public class MovimentacaoController {
                     .build();
 
         } catch (Exception e) {
+            e.printStackTrace();
 
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

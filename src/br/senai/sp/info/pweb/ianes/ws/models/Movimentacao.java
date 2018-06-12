@@ -87,5 +87,15 @@ public class Movimentacao {
 		this.usuario = usuario;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Movimentacao{" +
+				"id=" + id +
+				", itemPatrimonio=" + itemPatrimonio +
+				", origem=" + origem +
+				", destino=" + destino +
+				", data_movimentacao=" + data_movimentacao +
+				", usuario=" + usuario +
+				'}';
+	}
 }

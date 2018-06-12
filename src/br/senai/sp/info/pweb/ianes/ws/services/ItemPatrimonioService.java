@@ -105,7 +105,7 @@ public class ItemPatrimonioService {
             throw new ValidationException();
         }
 
-        ItemPatrimonio itemBuscado = itemPatrimonioDAO.buscarId(id);
+        ItemPatrimonio itemBuscado = buscarPorId(id);
 
         itemBuscado.setPatrimonio(item.getPatrimonio());
         itemBuscado.setAmbienteAtual(item.getAmbienteAtual());
@@ -119,11 +119,11 @@ public class ItemPatrimonioService {
 
     }
 
-    public void alterarAmbiente(Long id, Ambiente destino) {
+    public void alterarAmbiente(Long id) throws EntityNotFoundException {
 
-        ItemPatrimonio itemBuscado = itemPatrimonioDAO.buscarId(id);
-
-        itemBuscado.setAmbienteAtual(destino);
+        ItemPatrimonio itemBuscado = buscarPorId(id);
+        System.out.println("Id: " + id);
+        System.out.println("ItemBuscado: " + itemBuscado);
 
         itemPatrimonioDAO.alterar(itemBuscado);
 

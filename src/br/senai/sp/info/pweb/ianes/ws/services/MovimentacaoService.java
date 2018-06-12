@@ -30,7 +30,6 @@ public class MovimentacaoService {
      * @param id
      * @return
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
     public Movimentacao buscarPorId(Long id) throws EntityNotFoundException {
 
@@ -45,7 +44,6 @@ public class MovimentacaoService {
     /**
      * Search all movimentacao in database
      * @return
-     * @throws UnauthorizedException
      */
     public List<Movimentacao> buscarTodos() {
         return movimentacaoDAO.buscarTodos();
@@ -55,7 +53,6 @@ public class MovimentacaoService {
      * Delete a movimentacao in database
      * @param id
      * @throws EntityNotFoundException
-     * @throws UnauthorizedException
      */
     public void deletar(Long id) throws EntityNotFoundException {
 
@@ -66,25 +63,6 @@ public class MovimentacaoService {
 
         movimentacaoDAO.deletar(movimentacaoBuscada);
     }
-
-    /**
-     * Update movimentacao in database
-     * @param movimentacao
-     * @throws UnauthorizedException
-     */
-    public Movimentacao alterar(Long id, Movimentacao movimentacao, BindingResult bindingResult) throws ValidationException, EntityNotFoundException {
-
-        if (bindingResult.hasErrors()) {
-            throw new ValidationException();
-        }
-
-        Movimentacao movimentacaoBuscada = movimentacao;
-
-        movimentacaoDAO.alterar(buscarPorId(id));
-
-        return movimentacaoBuscada;
-    }
-
 
     public Movimentacao movimentar(Movimentacao movimentacao, BindingResult bindingResult, Long itemId) throws ValidationException, EntityNotFoundException {
 
@@ -99,9 +77,12 @@ public class MovimentacaoService {
             throw new ValidationException();
         }
 
+        System.out.println("Movimentacao: " + movimentacao.toString());
+        System.out.println("Movimentacao ITEM: " + itemPatrimonio.toString() + " ID: " + itemId);
+
         movimentacao.setOrigem(itemPatrimonio.getAmbienteAtual());
         movimentacao.setDestino(movimentacao.getDestino());
-        itemPatrimonioService.alterarAmbiente(movimentacao.getItemPatrimonio().getId(), movimentacao.getDestino());
+        itemPatrimonioService.alterarAmbiente(movimentacao.getItemPatrimonio().getId());
 
         // Settando usuário
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

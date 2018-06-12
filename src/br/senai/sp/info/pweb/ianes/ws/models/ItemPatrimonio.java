@@ -58,4 +58,13 @@ public class ItemPatrimonio {
 		this.usuario = usuario;
 	}
 
+	@Override
+	public String toString() {
+		return "ItemPatrimonio{" +
+				"id=" + id +
+				", patrimonio=" + patrimonio +
+				", ambienteAtual=" + ambienteAtual +
+				", usuario=" + usuario +
+				'}';
+	}
 }
