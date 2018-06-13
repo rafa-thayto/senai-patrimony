@@ -36,8 +36,7 @@ public class MovimentacaoController {
             Movimentacao movimentacaoBuscada = movientacaoService.buscarPorId(id);
 
             return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(movimentacaoBuscada);
+                    .ok(movimentacaoBuscada);
 
         } catch (EntityNotFoundException e) {
 
@@ -60,8 +59,8 @@ public class MovimentacaoController {
      * Search all users
      * @return
      */
-    @GetMapping
-    public ResponseEntity<Object> buscarTodos(@PathVariable("itemId") String itemId) {
+    @GetMapping("/todas")
+    public ResponseEntity<Object> buscarTodos() {
 
         try {
 
@@ -69,6 +68,29 @@ public class MovimentacaoController {
                     .ok(movientacaoService.buscarTodos());
 
         } catch (Exception e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity buscarTodosPorItemId(@PathVariable("itemId") Long itemId) {
+        try {
+
+            return ResponseEntity
+                    .ok(movientacaoService.buscarTodosPorItemId(itemId));
+
+        } catch (EntityNotFoundException e) {
+
+            return ResponseEntity
+                    .notFound()
+                    .header("X-Reason", "A entidade item não foi encontrada")
+                    .build();
+
+        }  catch (Exception e) {
 
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

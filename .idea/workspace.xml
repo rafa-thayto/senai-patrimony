@@ -8,8 +8,15 @@
   <component name="ChangeListManager">
     <list default="true" id="fdc4b4c7-0e7d-4826-946c-ad7817b70274" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/ItemPatrimonioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/ItemPatrimonioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/MovimentacaoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/MovimentacaoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT/WEB-INF/classes/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT/WEB-INF/classes/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT/WEB-INF/classes/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/ianespatrimonio-ws-0.0.1-SNAPSHOT/WEB-INF/classes/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +45,8 @@
       <file leaf-file-name="MovimentacaoController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="86" column="71" selection-start-line="86" selection-start-column="71" selection-end-line="86" selection-end-column="71" />
+            <state relative-caret-position="238">
+              <caret line="78" column="15" lean-forward="true" selection-start-line="78" selection-start-column="15" selection-end-line="78" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -47,35 +54,21 @@
       <file leaf-file-name="MovimentacaoService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
+            <state relative-caret-position="407">
+              <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+              <folding>
+                <element signature="e#1633#1634#0" expanded="true" />
+                <element signature="e#1691#1692#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Usuario.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Usuario.java">
+      <file leaf-file-name="MovimentacaoDAO.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/MovimentacaoDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemPatrimonioService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/ItemPatrimonioService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="124" column="72" lean-forward="true" selection-start-line="124" selection-start-column="72" selection-end-line="124" selection-end-column="72" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemPatrimonioJPA.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/ItemPatrimonioJPA.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="34" column="49" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="49" />
+            <state relative-caret-position="68">
+              <caret line="6" column="60" lean-forward="true" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -83,8 +76,17 @@
       <file leaf-file-name="Movimentacao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Movimentacao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-68">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="153">
+              <caret line="23" column="41" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ItemPatrimonioJPA.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/ItemPatrimonioJPA.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="45" column="51" lean-forward="true" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -92,17 +94,17 @@
       <file leaf-file-name="ItemPatrimonio.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/ItemPatrimonio.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+            <state relative-caret-position="85">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MovimentacaoJPA.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MovimentacaoJPA.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+            <state relative-caret-position="407">
+              <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -156,7 +158,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/exceptions/EntityNotFoundException.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/exceptions/BadRequestException.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/exceptions/UnauthorizedException.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/autenticacao/Autoridade.java" />
@@ -201,12 +202,13 @@
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/ItemPatrimonioDAO.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/ItemPatrimonioJPA.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/config/PersistenceConfig.java" />
-        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java" />
-        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/ItemPatrimonio.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Movimentacao.java" />
-        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java" />
         <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/ItemPatrimonioService.java" />
+        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/MovimentacaoDAO.java" />
+        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java" />
+        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java" />
+        <option value="$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java" />
       </list>
     </option>
   </component>
@@ -268,6 +270,57 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
+              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
+            </path>
+            <path>
+              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
+              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
+              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
+              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
+              <item name="ws" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="br/senai/sp/info/pweb/ianes/ws" type="cbb8eebc:String" user="br/senai/sp/info/pweb/ianes/ws" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="br/senai/sp/info/pweb/ianes/ws" type="cbb8eebc:String" user="br/senai/sp/info/pweb/ianes/ws" />
+              <item name="rest/v1/controllers" type="cbb8eebc:String" user="rest/v1/controllers" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -338,63 +391,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
-              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
-            </path>
-            <path>
-              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
-              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
-              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="ianespatrimonio-ws" type="1abcf292:AndroidViewProjectNode" />
-              <item name="ianespatrimonio-ws" type="e9137016:NonAndroidModuleNode" />
-              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
-              <item name="ws" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <expand>
             <path>
               <item name="ianespatrimonio-ws" type="58d84e3e:PackageViewProjectNode" />
               <item name="ianespatrimonio-ws" type="616d4139:PackageViewModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="br/senai/sp/info/pweb/ianes/ws" type="cbb8eebc:String" user="br/senai/sp/info/pweb/ianes/ws" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="ianespatrimonio-ws" type="cbb8eebc:String" user="ianespatrimonio-ws" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="br/senai/sp/info/pweb/ianes/ws" type="cbb8eebc:String" user="br/senai/sp/info/pweb/ianes/ws" />
-              <item name="rest/v1/controllers" type="cbb8eebc:String" user="rest/v1/controllers" />
             </path>
           </expand>
           <select />
@@ -581,11 +583,12 @@
       <workItem from="1528816902612" duration="2141000" />
       <workItem from="1528821218672" duration="6386000" />
       <workItem from="1528903794808" duration="3614000" />
+      <workItem from="1528913704280" duration="1944000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="154257000" />
+    <option name="totallyTimeSpent" value="156201000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -619,10 +622,10 @@
       <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.32897604" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Version Control" order="13" weight="0.32897604" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49947917" weight="0.33769062" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49947917" visible="true" weight="0.33769062" />
       <window_info anchor="bottom" id="Spring" order="8" weight="0.21023965" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49946696" weight="0.32897604" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49891067" visible="true" weight="0.19989339" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49891067" visible="true" weight="0.20202559" />
       <window_info anchor="right" id="Bean Validation" order="8" weight="0.32995737" />
       <window_info id="Web" order="6" sideWeight="0.50108933" side_tool="true" weight="0.20149253" />
       <window_info anchor="right" id="Theme Preview" order="7" />
@@ -663,13 +666,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar!/org/apache/commons/logging/impl/Jdk14Logger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="162" selection-start-line="162" selection-end-line="162" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/auth0/java-jwt/3.3.0/java-jwt-3.3.0-sources.jar!/com/auth0/jwt/JWTDecoder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -957,13 +953,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/java/lang/Thread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
@@ -971,52 +960,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/ItemPatrimonio.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Movimentacao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="86" column="71" selection-start-line="86" selection-start-column="71" selection-end-line="86" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/ItemPatrimonioJPA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="34" column="49" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/ItemPatrimonioService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="124" column="72" lean-forward="true" selection-start-line="124" selection-start-column="72" selection-end-line="124" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
+        <state relative-caret-position="632">
+          <caret line="124" column="72" selection-start-line="124" selection-start-column="72" selection-end-line="124" selection-end-column="72" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Usuario.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="326">
-          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
+          <caret line="106" selection-start-line="106" selection-end-line="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/rest/v1/controllers/MovimentacaoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="78" column="15" lean-forward="true" selection-start-line="78" selection-start-column="15" selection-end-line="78" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/ItemPatrimonioJPA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="45" column="51" lean-forward="true" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/ItemPatrimonio.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/services/MovimentacaoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+          <folding>
+            <element signature="e#1633#1634#0" expanded="true" />
+            <element signature="e#1691#1692#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/MovimentacaoDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="60" lean-forward="true" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/models/Movimentacao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="23" column="41" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/br/senai/sp/info/pweb/ianes/ws/dao/jpa/MovimentacaoJPA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
         </state>
       </provider>
     </entry>

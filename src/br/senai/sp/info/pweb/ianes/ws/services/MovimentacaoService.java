@@ -25,6 +25,9 @@ public class MovimentacaoService {
     @Autowired
     private ItemPatrimonioService itemPatrimonioService;
 
+    @Autowired
+    private AmbienteService ambienteService;
+
     /**
      * Search by ID a movimentacao in database
      * @param id
@@ -47,6 +50,13 @@ public class MovimentacaoService {
      */
     public List<Movimentacao> buscarTodos() {
         return movimentacaoDAO.buscarTodos();
+    }
+
+    public List<Movimentacao> buscarTodosPorItemId(Long itemId) throws EntityNotFoundException {
+
+        itemPatrimonioService.buscarPorId(itemId);
+
+        return movimentacaoDAO.buscarTodosPorItemId(itemId);
     }
 
     /**
@@ -82,7 +92,7 @@ public class MovimentacaoService {
 
         // Settando origem e destino
         movimentacao.setOrigem(itemPatrimonio.getAmbienteAtual());
-        movimentacao.setDestino(movimentacao.getDestino());
+        movimentacao.setDestino(ambienteService.buscarPorId(movimentacao.getDestino().getId()));
 
         // Settando usuário
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

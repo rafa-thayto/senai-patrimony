@@ -45,7 +45,7 @@ public class MovimentacaoJPA implements MovimentacaoDAO {
 		
 		List<Movimentacao> result = query.list();
 		
-		if(!result.isEmpty()) {
+		if (!result.isEmpty()) {
 			return result.get(0);
 		} else {
 			return null;
@@ -60,4 +60,14 @@ public class MovimentacaoJPA implements MovimentacaoDAO {
 		return query.list(); 
 	}
 
+	@Override
+	public List<Movimentacao> buscarTodosPorItemId(Long itemId) {
+		String hql = "FROM Movimentacao m WHERE m.itemPatrimonio.id = :itemId";
+
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("itemId", itemId);
+
+		return query.list();
+
+	}
 }
