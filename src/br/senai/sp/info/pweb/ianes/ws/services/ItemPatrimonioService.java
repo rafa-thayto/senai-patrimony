@@ -119,9 +119,10 @@ public class ItemPatrimonioService {
 
     }
 
-    public void alterarAmbiente(Long id) throws EntityNotFoundException {
+    public void alterarAmbiente(Long id, ItemPatrimonio itemPatrimonio) throws EntityNotFoundException {
 
         ItemPatrimonio itemBuscado = buscarPorId(id);
+        itemBuscado.setAmbienteAtual(itemPatrimonio.getAmbienteAtual());
         System.out.println("Id: " + id);
         System.out.println("ItemBuscado: " + itemBuscado);
 

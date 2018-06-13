@@ -80,9 +80,9 @@ public class MovimentacaoService {
         System.out.println("Movimentacao: " + movimentacao.toString());
         System.out.println("Movimentacao ITEM: " + itemPatrimonio.toString() + " ID: " + itemId);
 
+        // Settando origem e destino
         movimentacao.setOrigem(itemPatrimonio.getAmbienteAtual());
         movimentacao.setDestino(movimentacao.getDestino());
-        itemPatrimonioService.alterarAmbiente(movimentacao.getItemPatrimonio().getId());
 
         // Settando usuário
         Usuario usuarioBuscado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -94,8 +94,10 @@ public class MovimentacaoService {
         // Data da movimentacao
         movimentacao.setData_movimentacao(new Date());
 
-
         movimentacaoDAO.persistir(movimentacao);
+
+        itemPatrimonio.setAmbienteAtual(movimentacao.getDestino());
+        itemPatrimonioService.alterarAmbiente(itemId, itemPatrimonio);
 
         return movimentacao;
 
